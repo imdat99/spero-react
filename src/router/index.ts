@@ -7,13 +7,12 @@ import { adminAjax, PageUrl, SPERO_ACTION } from "@app/utils/constant";
 import { objectBody } from "@app/utils/helper-function";
 import { appRequest } from "@app/utils/request";
 import { PRODUCT_DATA } from "@app/utils/types";
+import AppSuspense from "@app/views/components/AppSuspense";
 import CartEmpty from "@app/views/components/CartEmpty";
 import CustomOutlet from "@app/views/components/CustomOutlet";
-import Checkout from "@app/views/pages/checkout";
 import Detail2 from "@app/views/pages/details2";
-import Detail1 from "@app/views/pages/product-detail/detail1";
-import Products from "@app/views/pages/products";
-import { createElement as _c, FC, Fragment, useEffect } from "react";
+// import Products from "";
+import { createElement as _c, FC, Fragment, lazy, useEffect } from "react";
 import { createBrowserRouter, Outlet, useNavigate } from "react-router-dom";
 
 const CheckCartPage: FC = () => {
@@ -56,7 +55,7 @@ const router = createBrowserRouter(
                   url: PageUrl + "/wp-json/vendor/v/products",
                 });
               },
-              element: _c(Products),
+              element: _c(AppSuspense, {comp: lazy(() => import("@app/views/pages/products"))}),
               // element: _c(CoffeeMap),
             },
             {
@@ -80,7 +79,7 @@ const router = createBrowserRouter(
               children: [
                 {
                   path: "",
-                  element: _c(Detail1),
+                  element: _c(AppSuspense, {comp: lazy(() => import("@app/views/pages/product-detail/detail1"))}),
                 },
                 {
                   path: "more-info",
@@ -97,7 +96,7 @@ const router = createBrowserRouter(
             method: "POST",
             body: objectBody({ action: SPERO_ACTION.CHECKOUT_INFO })})
           },
-          element: _c(Checkout),
+          element: _c(AppSuspense, {comp: lazy(() => import("@app/views/pages/checkout"))}),
         },
         {
           path: "info",
