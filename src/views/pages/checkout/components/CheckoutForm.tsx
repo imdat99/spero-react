@@ -43,18 +43,18 @@ const CheckoutForm: React.FC<{
             value={
               diaGioiVn
                 ? diaGioiVn.find(
-                    (option) => option.Id === formik.values.billing_city
+                    (option) => option.Name === formik.values.billing_city
                   )
                 : ""
             }
             onChange={(option: any) => {
               formik.setFieldValue("billing_address_1", "");
-              formik.setFieldValue("billing_city", option?.Id || "");
+              formik.setFieldValue("billing_city", option?.Name || "");
             }}
             name="billing_city"
             options={diaGioiVn}
             getOptionLabel={(opt: any) => opt["Name"]}
-            getOptionValue={(opt: any) => opt["Id"]}
+            getOptionValue={(opt: any) => opt["Name"]}
             isClearable
           />
           <FakeMuiSelect
@@ -65,24 +65,24 @@ const CheckoutForm: React.FC<{
               formik.values.billing_city
                 ? diaGioiVn
                     .find(
-                      (province) => province.Id === formik.values.billing_city
+                      (province) => province.Name === formik.values.billing_city
                     )
                     ?.Districts.find(
-                      (option) => option.Id === formik.values.billing_address_1
+                      (option) => option.Name === formik.values.billing_address_1
                     ) || ""
                 : ""
             }
             onChange={(option: any) =>
-              formik.setFieldValue("billing_address_1", option?.Id || "")
+              formik.setFieldValue("billing_address_1", option?.Name || "")
             }
             name="billing_address_1"
             options={
               diaGioiVn.find(
-                (province) => province.Id === formik.values.billing_city
+                (province) => province.Name === formik.values.billing_city
               )?.Districts
             }
             getOptionLabel={(opt: any) => opt["Name"]}
-            getOptionValue={(opt: any) => opt["Id"]}
+            getOptionValue={(opt: any) => opt["Name"]}
             required
             isClearable
           />
