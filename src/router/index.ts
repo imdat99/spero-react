@@ -9,6 +9,7 @@ import { appRequest } from "@app/utils/request";
 import { PRODUCT_DATA } from "@app/utils/types";
 import CartEmpty from "@app/views/components/CartEmpty";
 import CustomOutlet from "@app/views/components/CustomOutlet";
+import { ErrorBoundary } from "@app/views/components/ErrorBoundary";
 import Checkout from "@app/views/pages/checkout";
 import Detail2 from "@app/views/pages/details2";
 import Detail1 from "@app/views/pages/product-detail/detail1";
@@ -33,6 +34,10 @@ const CheckCartPage: FC = () => {
   return _c(CartEmpty);
 };
 
+const ErrorCheck = (Comp: () => JSX.Element) => {
+  return _c(ErrorBoundary, {children: _c(Comp)})
+}
+
 const router = createBrowserRouter(
   [
     {
@@ -56,7 +61,7 @@ const router = createBrowserRouter(
                   url: PageUrl + "/wp-json/vendor/v/products",
                 });
               },
-              element: _c(Products),
+              element: ErrorCheck(Products),
               // element: _c(CoffeeMap),
             },
             {
@@ -80,11 +85,11 @@ const router = createBrowserRouter(
               children: [
                 {
                   path: "",
-                  element: _c(Detail1),
+                  element: ErrorCheck(Detail1),
                 },
                 {
                   path: "more-info",
-                  element: _c(Detail2),
+                  element: ErrorCheck(Detail2),
                 },
               ],
             },
@@ -97,11 +102,11 @@ const router = createBrowserRouter(
             method: "POST",
             body: objectBody({ action: SPERO_ACTION.CHECKOUT_INFO })})
           },
-          element: _c(Checkout),
+          element: ErrorCheck(Checkout),
         },
         {
           path: "info",
-          element: _c(Detail2),
+          element: ErrorCheck(Detail2),
         },
         {
           path: "gio-hang",

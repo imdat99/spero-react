@@ -279,6 +279,19 @@ body {
   margin-bottom: 43px;
   flex-shrink: 0;
 }
+.post-page .product-img {
+  width: 70%;
+  margin-right: 2rem;
+}
+.post-page .taste-img{
+  width: 30%;
+  background-position: center;
+  margin-bottom: 43px;
+  border-radius: 19px;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .spero-productThumb {
   background-color: transparent !important;
 }
@@ -304,6 +317,13 @@ body {
 }
 .receive_percent_btn button + button {
   margin-left: 30px;
+}
+.btn {
+  border-radius: 100px;
+  padding: 10px 24px;
+}
+.btn + .btn {
+  margin-left: 16px;
 }
 .btn-outline {
   color: var(--primary-1);
@@ -403,6 +423,10 @@ body {
   list-style: none;
 }
 
+li.post-text:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
+
 /* --------------------- */
 /* story page */
 .story-img {
@@ -413,6 +437,47 @@ body {
   width: 100%;
   object-fit: cover;
   aspect-ratio: 1/1.155;
+}
+.post-img {
+  border-radius: 13.662px;
+  overflow: hidden;
+}
+.post-item .post-img {
+  max-height: 380px;
+  width: 40%;
+}
+
+.post-item .post-text {
+  width: 60%;
+  padding-left: 40px;
+}
+.post-item + .post-item {
+  margin-top: 2.5rem;
+}
+.list-post {
+  padding: 0;
+  margin-top: 1.5rem;
+}
+.post-text {
+  margin-top: 14px;
+}
+.post-text .post-date {
+  font-size: 14px;
+}
+
+.post-img img {
+  width: 100%;
+  aspect-ratio: 1.52;
+  object-fit: cover;
+}
+.post-new-container {
+  border-bottom: 1px solid var(--border-color);
+}
+.post-new-container .post-img img {
+  aspect-ratio: 2;
+}
+.term.post-new-container .post-img img {
+  aspect-ratio: 1.5;
 }
 .story-content {
   width: 55%;
@@ -501,12 +566,39 @@ body {
   /* width: 100%; */
   /* height: auto; */
 }
+.entry-header {
+  margin-bottom: 1.5rem;
+}
+.entry-header > * {
+  margin-top: 1rem;
+}
+.post-author {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 30px;
+  justify-content: center;
+}
+.page-banner {
+  width: 100%;
+  margin-top: -240px;
+  aspect-ratio: 1.66;
+  background-size: cover;
+  /* max-height: 960px; */
+}
 .spero-map.coffee-map svg {
   width: unset;
   height: unset;
 }
 .spero-map.coffee-map .note-info {
   min-width: 265px;
+}
+.people-img {
+  background-position: center;
+  border-radius: 12px;
+  height:100%; 
+}
+.sm-img.people-img {
+  height: 275px;
 }
 /* X-Small devices (portrait phones, less than 576px) */
 /* No media query for `xs` since this is the default in Bootstrap */
@@ -539,6 +631,17 @@ body {
   .story-title {
     margin-bottom: 24px;
   }
+  .post-item .post-text {
+    padding-left: 80px;
+  }
+  .img-divider {
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    height: 456px;
+    border-radius: 17px;
+  }
+
 }
 
 /* Medium devices (tablets, 768px and up) */
@@ -572,6 +675,24 @@ body {
   }
   .story-content {
     padding: 80px;
+  }
+  .cat-margin {
+    margin-block: 80px;
+  }
+  .cat-title h1 {
+    font-size: 110px;
+  }
+  .term .post-title {
+    font-size: var(--fs-md);
+  }
+  .post-entry-title {
+    font-size: 64px;
+  }
+  .md-img.people-img {
+    height: 498px; 
+  }
+  .people-title {
+    font-size: var(--fs-md);
   }
 }
 
