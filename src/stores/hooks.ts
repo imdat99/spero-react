@@ -19,13 +19,13 @@ type TypedDispatch<T> = ThunkDispatch<T, any, AnyAction>;
 export const useAppDispatch = () => useDispatch<TypedDispatch<RootState>>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-export const useDebounce = <T>(value: T) => {
+export const useDebounce = <T>(value: T, timeOut = 500) => {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
   useEffect(() => {
-    const handler = setTimeout(() => setDebouncedValue(value), 500);
+    const handler = setTimeout(() => setDebouncedValue(value), timeOut);
     return () => clearTimeout(handler);
-  }, [value]);
+  }, [value, timeOut]);
 
   return debouncedValue;
 };

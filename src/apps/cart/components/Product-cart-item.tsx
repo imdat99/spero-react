@@ -29,8 +29,7 @@ const ProductCartItem: FC<{
 
   useEffect(() => {
     setQuantity(itemQuantity);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [triggerRender]);
+  }, [itemQuantity, setQuantity, triggerRender]);
   useEffect(() => {
     if (!(quantity === itemQuantity))
       handle.update({ item_id: itemKey, quantity: quantity });

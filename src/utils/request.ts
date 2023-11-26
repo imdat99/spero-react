@@ -8,7 +8,7 @@ export const appRequest = async ({
 }: {
   url: string;
   method?: "POST" | "GET";
-  body?: BodyInit;
+  body?: BodyInit | string;
   setLoading?: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   if (setLoading) {

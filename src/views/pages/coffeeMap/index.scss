@@ -1,0 +1,40 @@
+.mapLine {
+  cursor: pointer;
+  pointer-events: all;
+  &:hover, &.line-hover{
+    path {
+      fill: url(#P)!important;
+    }
+  }
+}
+.specialCountry {
+  cursor: pointer;
+  & path[data-class="specialCountry"] {
+    fill: #6896DC;
+  }
+  &.line-hover.vietnam {
+    path[data-class="specialCountry"] {
+      fill: #9AAFCF;
+    }
+  }
+  &.line-hover.ethiopia {
+    path[data-class="specialCountry"] {
+      fill: #9AAFCF;
+    }
+  }
+}
+.area1, .area2 {
+  path {
+    fill: #efefef!important;
+  }
+}
+.area1.line-hover {
+    path {
+      fill: #CDDAEB!important;
+    }
+}
+.area2.line-hover {
+  path {
+    fill: #9AAFCF!important;
+  }
+}

@@ -3,17 +3,20 @@ import { cartStore } from "@app/stores/cart";
 import { useAppSelector, useDebounce, useSafeState } from "@app/stores/hooks";
 import { Money } from "@app/utils/helper-function";
 import BlurLayout from "@app/views/components/BlurLayout";
-import { useCallback, useEffect } from "react";
+import { Fragment, useCallback, useEffect } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
 import { createPortal } from "react-dom";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { removeItemFn, updateQuantity } from "./service";
+import { productStore } from "@app/stores/product";
+import { PRODUCT_DATA } from "@app/utils/types";
+import Slider from "react-slick";
+import ProductCard from "@app/views/components/ProductCard";
 
 const cartRootElement = document.getElementById("spero-app-cart");
 
 function CartApp() {
-  const navigate = useNavigate();
+  const allProducts = useAppSelector(productStore);
   const { count, items, total } = useAppSelector(cartStore);
   const [loading, setLoading] = useSafeState<boolean>(false);
   const [itemUpdate, setItemUpdate] = useSafeState<{
@@ -40,7 +43,7 @@ function CartApp() {
     document.getElementById("off-cart_toggle")?.click();
     const url = e.currentTarget.dataset.navigate!;
     if (location.pathname !== "/san-pham" || url !== "/san-pham") {
-      navigate(url);
+      window.open(url, "_self");
     }
   };
 
@@ -55,10 +58,15 @@ function CartApp() {
         {Boolean(count) && (
           <BlurLayout loading={loading}>
             <div className="cart-list-item">
-              <Scrollbars style={{ height: 520 }}>
+              <Scrollbars
+                style={{ height: Object.entries(items).length > 1 ? 520 : 260 }}
+              >
                 {Object.entries(items).map(([key, value]) => (
                   <ProductCartItem
-                    itemData={value}
+                    itemData={{
+                      ...value,
+                      data: allProducts[value.product_id] as PRODUCT_DATA,
+                    }}
                     key={key}
                     handle={{
                       remove: handleRemove,
@@ -75,10 +83,38 @@ function CartApp() {
                   <b>{Money(total || "0")}</b>
                 </h4>
               </div>
-              <div className="suggest-products ">
+              <div className="suggest-products mb-5">
                 <span className="offcanvas-title text-uppercase spero-text-primary">
                   Có thể bạn sẽ thích
                 </span>
+                <Slider
+                  dots
+                  infinite
+                  autoplay={true}
+                  autoplaySpeed={2000}
+                  speed={500}
+                  slidesToShow={2}
+                  slidesToScroll={1}
+                  customPaging={() => {
+                    return (
+                      <svg
+                        width="19"
+                        height="6"
+                        viewBox="0 0 19 6"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect width="19" height="6" rx="3" fill="#EFEFEF" />
+                      </svg>
+                    );
+                  }}
+                >
+                  {Object.entries(allProducts).map(([key, item]) => (
+                    <Fragment key={key}>
+                      <ProductCard product={item as PRODUCT_DATA} />
+                    </Fragment>
+                  ))}
+                </Slider>
               </div>
               <div className="checkoutBtnGroup receive_percent_btn d-flex justify-content-between flex-wrap my-3">
                 <button
@@ -136,4 +172,34 @@ const CartContainer = styled.div`
       margin-left: 0;
     }
   }
+  .product_name_text {
+    font-size: 20px;
+    line-height: 28px; /* 140% */
+  }
+  .product-cart-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  /* the slides */
+  .slick-slide {
+    padding: 0 10px;
+  }
+  .slick-dots {
+    margin-top: 1rem;
+    .slick-active rect {
+      fill: var(--primary-1);
+    }
+  }
+  /* .slick-dots li button {
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: 0 10px;
+    background-color: var(--primary-1);
+    &:before {
+      content: "";
+      /* padding: 1px; 
+      border-radius: 100px;
+    }
+  } */
 `;

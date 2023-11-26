@@ -21,12 +21,17 @@ export type WP_IMG_INFO = {
 export type PRODUCT_DATA = {
   slug: string;
   attributes: Record<string, string[]>;
+  cat: {
+    id: string;
+    name: string;
+  };
   variations: {
     variation_id: string;
     attributes: Record<string, string>;
   }[];
   weight_unit: string;
   data: {
+    stock_status: string;
     product_name: string;
     product_id: string;
     url: string;
@@ -80,7 +85,19 @@ export type PRODUCT_CAT = {
   id: string;
   name: string;
   url: string;
+  slug: string;
   products: PRODUCT_DATA[];
+};
+export type PRODUCT_TAG = {
+  term_id: string;
+  name: string;
+  slug: string;
+  description: string;
+  count: number;
+  product_ids: string[];
+  products?: PRODUCT_DATA[];
+  title: string;
+  thumbnail: WP_IMG_INFO;
 };
 
 export type WARD = {
@@ -113,6 +130,32 @@ export type CHECKOUT_DATA = {
 };
 
 export type PAYMENT_GATEWAY = {
-    "id": string
-    "title": string;
-}
+  id: string;
+  title: string;
+};
+
+export type EPos = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
+};
+export type MapId = "vn" | "ethi";
+export type MapHover = {
+  isHover: boolean;
+  mapId: MapId;
+  position: EPos;
+};
+
+export type SearchResult = {
+  id: string;
+  title: string;
+  url: string;
+  type: string;
+  subtype: string;
+  featured_image_src: string;
+};

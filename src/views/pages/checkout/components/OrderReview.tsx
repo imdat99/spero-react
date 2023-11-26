@@ -1,17 +1,19 @@
-import { CART_ITEM } from "@app/utils/types";
+import { CART_ITEM, PRODUCT_DATA } from "@app/utils/types";
 import styled from "styled-components";
 import OrderRow from "./OrderRow";
 import { FC, Fragment, useCallback, useEffect } from "react";
 import { Money } from "@app/utils/helper-function";
-import { useDebounce, useSafeState } from "@app/stores/hooks";
+import { useAppSelector, useDebounce, useSafeState } from "@app/stores/hooks";
 import { removeItemFn, updateQuantity } from "@app/apps/cart/service";
 import BlurLayout from "@app/views/components/BlurLayout";
+import { productStore } from "@app/stores/product";
 
 const OrderReview: FC<{
   items: Record<string, CART_ITEM>;
   total: string;
 }> = ({ items, total }) => {
   const [loading, setLoading] = useSafeState<boolean>(false);
+  const allProducts = useAppSelector(productStore);
   const [itemUpdate, setItemUpdate] = useSafeState<{
     item_id: string;
     quantity: number;
@@ -46,7 +48,10 @@ const OrderReview: FC<{
           {Object.entries(items).map(([, item]) => (
             <Fragment key={item.key}>
               <OrderRow
-                item={item}
+                item={{
+                  ...item,
+                  data: allProducts[item.product_id] as PRODUCT_DATA,
+                }}
                 handle={{
                   remove: handleRemove,
                   update: setItemUpdate,

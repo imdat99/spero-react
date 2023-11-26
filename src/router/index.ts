@@ -1,17 +1,17 @@
 import CartApp from "@app/apps/cart";
-import { store } from "@app/stores";
+import SperoSearch from "@app/apps/search";
 import { cartStore } from "@app/stores/cart";
 import { useAppSelector } from "@app/stores/hooks";
-import { setProduct } from "@app/stores/product";
 import { adminAjax, PageUrl, SPERO_ACTION } from "@app/utils/constant";
 import { objectBody } from "@app/utils/helper-function";
 import { appRequest } from "@app/utils/request";
-import { PRODUCT_DATA } from "@app/utils/types";
 import CartEmpty from "@app/views/components/CartEmpty";
 import CustomOutlet from "@app/views/components/CustomOutlet";
 import { ErrorBoundary } from "@app/views/components/ErrorBoundary";
 import Checkout from "@app/views/pages/checkout";
 import Detail2 from "@app/views/pages/details2";
+import Home from "@app/views/pages/home";
+import EthioHome from "@app/views/pages/home/ethio";
 import Detail1 from "@app/views/pages/product-detail/detail1";
 import Products from "@app/views/pages/products";
 import { createElement as _c, FC, Fragment, useEffect } from "react";
@@ -35,18 +35,21 @@ const CheckCartPage: FC = () => {
 };
 
 const ErrorCheck = (Comp: () => JSX.Element) => {
-  return _c(ErrorBoundary, {children: _c(Comp)})
-}
+  return _c(ErrorBoundary, { children: _c(Comp) });
+};
 
 const router = createBrowserRouter(
   [
     {
       path: "/",
       element: _c(Fragment, null, [
-        _c(CartApp, { key: "dat.lt1" }),
+        _c(SperoSearch, { key: Math.random() }),
+        _c(EthioHome, { key: Math.random() }),
+        _c(Home, { key: Math.random() }),
+        _c(CartApp, { key: Math.random() }),
         (window as any).__IS_404__
-          ? _c("b", { key: "dat.lt2" })
-          : _c(CustomOutlet, { key: "dat.lt2" }),
+          ? _c("b", { key: Math.random() })
+          : _c(CustomOutlet, { key: Math.random() }),
       ]),
       children: [
         {
@@ -66,21 +69,6 @@ const router = createBrowserRouter(
             },
             {
               path: ":slug",
-              loader: async ({ params }) => {
-                const productStore = store.getState()
-                  .SPERO_PRODUCT as PRODUCT_DATA;
-                if (productStore.slug !== params.slug) {
-                  await appRequest({
-                    url:
-                      PageUrl +
-                      "/wp-json/vendor/v/product-detail?slug=" +
-                      params.slug,
-                  }).then((val) => {
-                    store.dispatch(setProduct(val));
-                  });
-                }
-                return null;
-              },
               element: _c(Outlet),
               children: [
                 {
@@ -98,9 +86,11 @@ const router = createBrowserRouter(
         {
           path: "thanh-toan",
           loader: async () => {
-            return await appRequest({ url: adminAjax,
-            method: "POST",
-            body: objectBody({ action: SPERO_ACTION.CHECKOUT_INFO })})
+            return await appRequest({
+              url: adminAjax,
+              method: "POST",
+              body: objectBody({ action: SPERO_ACTION.CHECKOUT_INFO }),
+            });
           },
           element: ErrorCheck(Checkout),
         },

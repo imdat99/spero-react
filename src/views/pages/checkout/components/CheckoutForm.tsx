@@ -60,7 +60,6 @@ const CheckoutForm: React.FC<{
           <FakeMuiSelect
             formInstant={formik}
             label="Quận huyện"
-            isDisabled={!formik.values.billing_city}
             value={
               formik.values.billing_city
                 ? diaGioiVn
@@ -68,7 +67,8 @@ const CheckoutForm: React.FC<{
                       (province) => province.Name === formik.values.billing_city
                     )
                     ?.Districts.find(
-                      (option) => option.Name === formik.values.billing_address_1
+                      (option) =>
+                        option.Name === formik.values.billing_address_1
                     ) || ""
                 : ""
             }

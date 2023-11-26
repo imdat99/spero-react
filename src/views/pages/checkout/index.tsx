@@ -26,8 +26,8 @@ const schema = yup.object({
       /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
       "Số điện thoại không đúng định dạng!"
     ),
-  billing_city: yup.string().required("Tỉnh thành không được để trống!"),
-  billing_address_2: yup.string().required("Quận Huyện không được để trống!"),
+  billing_city: yup.string().required("Thành phố không được để trống!"),
+  billing_address_2: yup.string().required("Địa chỉ không được để trống!"),
   billing_email: yup
     .string()
     .required("Email không được để trống!")
@@ -35,7 +35,7 @@ const schema = yup.object({
       /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g,
       "Địa chỉ email sai định dạng!"
     ),
-  billing_address_1: yup.string().required("Địa chỉ không được để trống!"),
+  billing_address_1: yup.string().required("Quận huyện không được để trống!"),
   payment_method: yup
     .string()
     .required("Vui lòng lựa chọn phương thức thanh toán!"),
@@ -65,7 +65,10 @@ const Checkout = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const { diaGioiVn, payment_geateways } = useLoaderData() as Record<string, PROVINCE[] & PAYMENT_GATEWAY[]>;
+  const { diaGioiVn, payment_geateways } = useLoaderData() as Record<
+    string,
+    PROVINCE[] & PAYMENT_GATEWAY[]
+  >;
 
   useEffect(() => {
     if (String(count) === "0") navigate("/gio-hang");
@@ -128,7 +131,10 @@ const Checkout = () => {
               />
             </div>
             <div className="bill-total my-4">
-              <PaymentMethod formik={formik} payment_geateways={payment_geateways}/>
+              <PaymentMethod
+                formik={formik}
+                payment_geateways={payment_geateways}
+              />
             </div>
             <AddToCartbtn
               className="btn btn-normal fw-semibold w-100 mb-4 checkout-button position-relative"
