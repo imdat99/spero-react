@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { iconPosition } from "../leftPosition";
 
-type Position = {
+export type Position = {
   bottom: number;
   height: number;
   left: number;
@@ -28,9 +28,8 @@ const BoxIcon = styled.div`
 // const arr: number[] = [];
 const HomeIcon: React.FC<IconPos> = ({ position, line, speed }) => {
   // arr.push(sinPercent);
-  const { height, top } = position;
   return (
-    <BoxIcon style={iconPosition(height, top, line, speed) as any}>
+    <BoxIcon style={iconPosition(position, line, speed) as any}>
       <img src="/wp-content/themes/spero/svg/logoIcon.svg" alt="" />
     </BoxIcon>
   );

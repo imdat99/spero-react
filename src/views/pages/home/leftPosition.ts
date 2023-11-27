@@ -1,3 +1,5 @@
+import { Position } from "./line0";
+
 type LeftVal = {
   line0: Record<string, number>[];
   line1: Record<string, number>[];
@@ -117,11 +119,11 @@ export const leftValue: LeftVal = {
 };
 
 export const iconPosition = (
-  height: number,
-  top: number,
+  position: Position,
   line: string,
   speed: number
 ) => {
+  const { height, top, left } = position;
   const iconHeight = height - 600 - top;
   const leftVal = leftValue[line as keyof LeftVal].find(
     (v) =>
@@ -133,7 +135,7 @@ export const iconPosition = (
     position: "fixed",
     zIndex: 1,
     top: height - 500 || "10px",
-    left: (leftVal || 0) + 83,
+    left: left + (leftVal || 0),
     transition: "top 0.01s ease 0s",
   };
   return style;

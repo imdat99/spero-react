@@ -151,7 +151,11 @@ const Detail1 = () => {
                     maxWidth: "670px",
                     top: animation.isAnimation ? "25%" : "80%",
                     transform:
-                      top < 0 ? "translate(0, -55%)" : "translate(-100%, 0%)",
+                      top < -405
+                        ? "translate(0%,-40%)"
+                        : top < -100
+                        ? "translate(-65%, 25%)"
+                        : "translate(-100%, 0%)",
                   }}
                 >
                   <img
@@ -163,7 +167,8 @@ const Detail1 = () => {
                     style={{
                       // height: "100%",
                       width: "auto",
-                      height: top < 0 ? "290px" : "630px",
+                      height:
+                        top < -405 ? "290px" : top < -100 ? "450px" : "630px",
 
                       // transform: scrollPercent < 0.05 ? "scale(1)" : "scale(0.75)",
                     }}
@@ -174,7 +179,11 @@ const Detail1 = () => {
                   style={{
                     position: animation.isAnimation ? "fixed" : "absolute",
                     maxWidth: "670px",
-                    top: animation.isAnimation ? "35%" : "85%",
+                    top: animation.isAnimation
+                      ? top < -405
+                        ? "45%"
+                        : "35%"
+                      : "85%",
                   }}
                 >
                   <Link to="info" className="product_item spero-text-primary">
@@ -270,7 +279,11 @@ const Detail1 = () => {
       >
         <div className="products-container d-flex flex-wrap justify-content-between">
           {data.info
-            .filter((i) => i.key !== "Hương vị")
+            .filter((i) =>
+              top < -110
+                ? i.key !== "Mùa vụ" && i.key !== "Hương vị"
+                : i.key !== "Hương vị"
+            )
             .map(({ key, value }, index) => (
               <span className="w-xs-50" key={index}>
                 {key}: <b>{value}</b>
@@ -287,7 +300,7 @@ const Detail1 = () => {
                 <span className="text-uppercase">{productData.cat.name}</span>
               </p>
             </div>
-            <div className="listProducts row justify-center">
+            <div className="listProducts row justify-content-center">
               {sameCat.map(([id, product]) => (
                 <div className={"col-12 col-md-4 my-3"} key={id}>
                   <ProductCard product={product as PRODUCT_DATA} />

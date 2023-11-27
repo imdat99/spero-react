@@ -19,7 +19,9 @@
   --slogan-text-size: 48px;
   --fs-md: 30px;
 }
-
+a {
+  text-decoration: none !important;
+}
 @font-face {
   font-family: "speroFont";
   src: url("/wp-content/themes/spero/font/NeueEinstellung_Thin.otf")
