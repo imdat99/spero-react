@@ -100,7 +100,7 @@ const Checkout = () => {
     initialValues,
     onSubmit,
     validationSchema: schema,
-    validateOnBlur: false,
+    validateOnBlur: true,
     validateOnChange: false,
   });
 
@@ -108,13 +108,13 @@ const Checkout = () => {
     <>
       <div className="page-container section_mb">
         <div className="products-container row gx-4">
-          <div className="col col-lg-8">
+          <div className="col-12 col-lg-8">
             <h2>Giỏ hàng</h2>
             <OrderReview items={items} total={total} />
             <h2 className="mt-4">Thông tin nhận hàng</h2>
             <CheckoutForm diaGioiVn={diaGioiVn} formik={formik} />
           </div>
-          <div className="col col-lg-4">
+          <div className="col-12 col-lg-4">
             <div className="coupon-container">
               <h2 className="block-name mb-4">Mã ưu đãi</h2>
               <Coupon />

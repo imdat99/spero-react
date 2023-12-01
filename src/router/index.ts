@@ -12,6 +12,7 @@ import Checkout from "@app/views/pages/checkout";
 import Detail2 from "@app/views/pages/details2";
 import Home from "@app/views/pages/home";
 import EthioHome from "@app/views/pages/home/ethio";
+import VietnamHome from "@app/views/pages/home/vietnam";
 import Detail1 from "@app/views/pages/product-detail/detail1";
 import Products from "@app/views/pages/products";
 import { createElement as _c, FC, Fragment, useEffect } from "react";
@@ -45,6 +46,7 @@ const router = createBrowserRouter(
       element: _c(Fragment, null, [
         _c(SperoSearch, { key: Math.random() }),
         _c(EthioHome, { key: Math.random() }),
+        _c(VietnamHome, { key: Math.random() }),
         _c(Home, { key: Math.random() }),
         _c(CartApp, { key: Math.random() }),
         (window as any).__IS_404__
@@ -110,11 +112,12 @@ const router = createBrowserRouter(
     },
   ],
   {
-    // basename: "/san-pham",
     future: {
       v7_normalizeFormMethod: true,
     },
   }
 );
+
+
 
 export default router;

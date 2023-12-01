@@ -69,6 +69,8 @@ const Line0: React.FC<{
       window.removeEventListener("scroll", calcPosition);
     };
   }, [el, height]);
+  // console.log("position.height - 550 - position.top", position.height - 550 - position.top);
+  
   return (
     <div className="step-line position-relative" ref={(e) => setEl(e)}>
       {posHeight - 400 - top < height + (head || 0) &&
@@ -81,17 +83,19 @@ const Line0: React.FC<{
             }
           />
         )}
+        {posHeight - 400 - top > (foot || 0) &&
       <div
-        className="position-absolute overflow-hidden"
+        className="position-absolute overflow-hidden" data-a={ posHeight - 550 - top + 50 } data-b={ height }
         style={{
-          height:
-            position.height - 550 - position.top + 50 > height
-              ? height
-              : position.height - 550 - position.top + 50,
+          height: posHeight - 500 - top > 0 ?
+          posHeight - 500 - top > height 
+              ? height 
+              : posHeight - 550 - top + 50 + (foot || 0) : 0,
         }}
       >
         <img height={height} src={lineActive} alt="step-line" />
       </div>
+        }
       <img src={lineSvg} alt="step-line" />
     </div>
   );

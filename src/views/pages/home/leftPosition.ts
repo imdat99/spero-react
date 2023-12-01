@@ -50,8 +50,9 @@ export const leftValue: LeftVal = {
     //
   ],
   line1: [
-    { borderA: -55, borderB: 40, value: 35 },
-    { borderA: 40, borderB: 60, value: 19.6531 },
+    { borderA: -105, borderB: 0, value: 0 },
+    { borderA: 0, borderB: 40, value: 15 },
+    { borderA: 40, borderB: 60, value: 10.6531 },
     { borderA: 60, borderB: 85, value: -5.6531 },
     // { borderA: 85,  borderB:  100, value: 27.2352 },
     { borderA: 85, borderB: 100, value: -10 },
@@ -77,8 +78,8 @@ export const leftValue: LeftVal = {
     { borderA: 620, borderB: 660, value: 135 },
     { borderA: 660, borderB: 720, value: 120 },
     { borderA: 720, borderB: 760, value: 100 },
-    { borderA: 760, borderB: 810, value: 0 },
-    { borderA: 810, borderB: 820, value: 0 },
+    { borderA: 760, borderB: 810, value: 100 },
+    { borderA: 810, borderB: 820, value: 60 },
     { borderA: 820, borderB: 825, value: 0 },
   ],
   line2: [
@@ -88,7 +89,7 @@ export const leftValue: LeftVal = {
     { borderA: 20, borderB: 50, value: 25 },
     { borderA: 50, borderB: 71, value: 10 },
     { borderA: 71, borderB: 111, value: 5 },
-    { borderA: 111, borderB: 156, value: -5 },
+    { borderA: 111, borderB: 156, value: -15 },
     { borderA: 156, borderB: 171, value: -10 },
     { borderA: 171, borderB: 205, value: -20 },
     { borderA: 205, borderB: 256, value: -25 },
@@ -99,11 +100,11 @@ export const leftValue: LeftVal = {
     { borderA: 421, borderB: 466, value: -5 },
     { borderA: 466, borderB: 511, value: 20 },
     { borderA: 511, borderB: 561, value: 65 },
-    { borderA: 561, borderB: 601, value: 90 },
+    { borderA: 561, borderB: 601, value: 100 },
     { borderA: 601, borderB: 621, value: 110 },
     { borderA: 621, borderB: 651, value: 120 },
     { borderA: 651, borderB: 691, value: 130 },
-    { borderA: 691, borderB: 751, value: 135 },
+    { borderA: 691, borderB: 751, value: 145 },
     { borderA: 751, borderB: 781, value: 140 },
     { borderA: 781, borderB: 831, value: 145 },
     { borderA: 831, borderB: 867, value: 150 },
@@ -130,9 +131,9 @@ export const iconPosition = (
       v.borderA - 108.5 + speed < iconHeight &&
       v.borderB - 108.5 + speed >= iconHeight
   )?.value;
-
   const style = {
     position: "fixed",
+    visibility: leftVal ? "visible" : "hidden",
     zIndex: 1,
     top: height - 500 || "10px",
     left: left + (leftVal || 0),

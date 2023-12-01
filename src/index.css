@@ -552,9 +552,9 @@ li.post-text:not(:last-child) {
 }
 
 .post-text {
-  margin-top: 14px;
+  /* margin-top: 14px; */
 }
-
+article figure {width: 100%}
 .post-text .post-date {
   font-size: 14px;
 }
@@ -680,7 +680,7 @@ li.post-text:not(:last-child) {
   font-size: 20px;
 }
 
-#spero-tooltip {
+#spero-tooltip, #spero-tooltip2 {
   box-shadow: 8px 8px 9px 0px rgba(0, 0, 0, 0.05);
   max-width: 425px;
   opacity: 1;
@@ -1025,4 +1025,10 @@ a[disabled] {
 }
 .spacing-nav {
   margin-top: var(--margin-fixed);
+}
+.toc_list li + li {
+  margin-block: 16px;
+}
+.g-6 {
+  --bs-gutter-x: 2rem;
 }

@@ -99,6 +99,13 @@ export type PRODUCT_TAG = {
   title: string;
   thumbnail: WP_IMG_INFO;
 };
+export type MapPin = {
+  img: string;
+  name: string;
+  content: string;
+  id: string;
+  desc: string;
+};
 
 export type WARD = {
   Id: string;

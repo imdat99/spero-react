@@ -1,9 +1,9 @@
-import { PRODUCT_TAG } from "@app/utils/types";
-import ProductCard from "@app/views/components/ProductCard";
+import { MapPin } from "@app/utils/types";
 import Scrollbars from "react-custom-scrollbars-2";
 import styled from "styled-components";
 
-const Popup: React.FC<{ data: PRODUCT_TAG }> = ({ data }) => {
+const Popup2: React.FC<{ mapPin: MapPin }> = (props) => {
+  const { mapPin } = props || { mapPin: [] };
   return (
     <Scrollbars
       style={{
@@ -13,34 +13,22 @@ const Popup: React.FC<{ data: PRODUCT_TAG }> = ({ data }) => {
     >
       <PopupStyled>
         <div className="tag-header d-flex">
-          <img className="map-img" src={data.thumbnail.src} alt="" />
+          <img className="map-img" src={mapPin.img} alt="" />
           <div className="tag-info">
-            <h2 className="tag-name">{data.name}</h2>
-            <p className="tag-title">{data.title}</p>
+            <h2 className="tag-name">{mapPin.name}</h2>
+            <p className="tag-title">{mapPin.desc}</p>
           </div>
         </div>
-        <p className="tag-content">
-          {data.description}
-          <a
-            className="d-block"
-            href={data.slug.includes("ethiopia") ? "/ethiopia" : "/viet-nam"}
-          >
-            Xem thêm
-          </a>
-        </p>
-        <div className="tag-products row">
-          {data.products?.slice(0, 2).map((product) => (
-            <div className="col-12 col-md-6" key={product.data.product_id}>
-              <ProductCard product={product} />
-            </div>
-          ))}
-        </div>
+        <p
+          className="tag-content"
+          dangerouslySetInnerHTML={{ __html: mapPin.content }}
+        ></p>
       </PopupStyled>
     </Scrollbars>
   );
 };
 
-export default Popup;
+export default Popup2;
 const PopupStyled = styled.div`
   /* position: relative; */
   width: 390px;

@@ -18,4 +18,5 @@ export enum BUTTON_TYPE {
 export const PageUrl: string = (window as any).__PAGE_URL__;
 
 export const checkoutData = PageUrl + "/wp-json/vendor/checkout-info";
-export const adminAjax = PageUrl + "/wp-admin/admin-ajax.php"
+export const adminAjax = PageUrl + "/wp-admin/admin-ajax.php";
+export const searchCoupon = PageUrl + "/wp-json/vendor/v/coupon";

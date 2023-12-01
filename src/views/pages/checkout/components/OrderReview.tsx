@@ -7,11 +7,14 @@ import { useAppSelector, useDebounce, useSafeState } from "@app/stores/hooks";
 import { removeItemFn, updateQuantity } from "@app/apps/cart/service";
 import BlurLayout from "@app/views/components/BlurLayout";
 import { productStore } from "@app/stores/product";
+import useWindowSize from "@app/utils/useWindowSize";
+import MobileOrderRow from "./MobileOrderRow";
 
 const OrderReview: FC<{
   items: Record<string, CART_ITEM>;
   total: string;
 }> = ({ items, total }) => {
+  const { width } = useWindowSize();
   const [loading, setLoading] = useSafeState<boolean>(false);
   const allProducts = useAppSelector(productStore);
   const [itemUpdate, setItemUpdate] = useSafeState<{
@@ -34,50 +37,70 @@ const OrderReview: FC<{
 
   return (
     <BlurLayout loading={loading}>
-      <TableStyled>
-        <thead>
-          <tr>
-            <th className="product-col">Sản phẩm</th>
-            <th className="price-col">Giá</th>
-            <th className="quantity-col">Số lượng</th>
-            <th className="total-col">Tổng cộng</th>
-            <th className="action-col">&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.entries(items).map(([, item]) => (
-            <Fragment key={item.key}>
-              <OrderRow
-                item={{
-                  ...item,
-                  data: allProducts[item.product_id] as PRODUCT_DATA,
-                }}
-                handle={{
-                  remove: handleRemove,
-                  update: setItemUpdate,
-                }}
-              />
-            </Fragment>
+      {width > 575 ? (
+        <TableStyled>
+          <thead>
+            <tr>
+              <th className="product-col">Sản phẩm</th>
+              <th className="price-col">Giá</th>
+              <th className="quantity-col">Số lượng</th>
+              <th className="total-col">Tổng cộng</th>
+              <th className="action-col">&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.entries(items).map(([, item]) => (
+              <Fragment key={item.key}>
+                <OrderRow
+                  item={{
+                    ...item,
+                    data: allProducts[item.product_id] as PRODUCT_DATA,
+                  }}
+                  handle={{
+                    remove: handleRemove,
+                    update: setItemUpdate,
+                  }}
+                />
+              </Fragment>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td className="product-col">
+                <span className="review-total__span">Tổng tiền:</span>
+              </td>
+              <td colSpan={3} className="total-amount-col">
+                <span className="review-total__amount">{Money(total)}</span>
+              </td>
+              <td>&nbsp;</td>
+            </tr>
+          </tfoot>
+        </TableStyled>
+      ) : (
+        <MobilePreview>
+          {Object.entries(items).map(([key, value]) => (
+            <MobileOrderRow
+              itemData={{
+                ...value,
+                data: allProducts[value.product_id] as PRODUCT_DATA,
+              }}
+              key={key}
+              handle={{
+                remove: handleRemove,
+                update: setItemUpdate,
+              }}
+            />
           ))}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td className="product-col">
-              <span className="review-total__span">Tổng tiền:</span>
-            </td>
-            <td colSpan={3} className="total-amount-col">
-              <span className="review-total__amount">{Money(total)}</span>
-            </td>
-            <td>&nbsp;</td>
-          </tr>
-        </tfoot>
-      </TableStyled>
+        </MobilePreview>
+      )}
     </BlurLayout>
   );
 };
 
 export default OrderReview;
-
+const MobilePreview = styled.div`
+  width: 100%;
+`;
 const TableStyled = styled.table`
   thead {
     border-bottom: 1px solid var(--border-color-2);

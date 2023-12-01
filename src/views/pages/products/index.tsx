@@ -1,12 +1,21 @@
-import { PRODUCT_CAT, PRODUCT_DATA, PRODUCT_TAG } from "@app/utils/types";
+import {
+  MapPin,
+  PRODUCT_CAT,
+  PRODUCT_DATA,
+  PRODUCT_TAG,
+} from "@app/utils/types";
 import PageSlogan from "@app/views/components/PageSlogan";
 import ProductCard from "@app/views/components/ProductCard";
-import { Fragment, useEffect, useMemo, useRef } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { useLoaderData, useLocation } from "react-router-dom";
 import Map2 from "../coffeeMap/Map2";
+import SWR from "vanilla-swr";
+import { fetcher } from "@app/utils/request";
 
 const Products = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [mapPin, setMapPin] = useState<MapPin[]>([]);
+
   const { hash } = useLocation();
   const { cat_data, tag_data } = useLoaderData() as {
     cat_data: PRODUCT_CAT[];
@@ -19,6 +28,18 @@ const Products = () => {
         []
       ),
     [cat_data]
+  );
+
+  const observable = useMemo(
+    () =>
+      SWR<{ pin_data: MapPin[] }>(
+        "https://sperocoffee.com/wp-json/vendor/v/pins?category=pin-global",
+        fetcher,
+        {
+          revalidateOnFocus: false,
+        }
+      ),
+    []
   );
   const map_tags = useMemo(() => {
     tag_data.forEach((item) => {
@@ -39,10 +60,20 @@ const Products = () => {
     }
   }, [hash]);
 
+  useEffect(() => {
+    const watcher = observable.watch(({ data }) => {
+      setMapPin(data!.pin_data);
+    });
+    return () => {
+      watcher.unwatch();
+    };
+  });
+  
+
   return (
     <div className="section_mt" ref={containerRef}>
       <PageSlogan />
-      <Map2 map_tags={map_tags} />
+      <Map2 map_tags={map_tags} mapPin={mapPin} />
       {cat_data.map((item) => (
         <Fragment key={item.id}>
           <div

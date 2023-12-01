@@ -1,45 +1,31 @@
-import { useState } from "react";
+import { fetcher } from "@app/utils/request";
+import { MapPin } from "@app/utils/types";
+import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { Tooltip } from "react-tooltip";
 import styled from "styled-components";
+import SWR from "vanilla-swr";
 const EthiRoot = document.getElementById("spero-ethi");
-const ethiData = {
-  sidama: {
-    name: "Sidama",
-    height: "1400 - 2200m",
-    taste: "Hương hoa trắng, cam, chanh xanh",
-  },
-  guji: {
-    name: "Guji",
-    height: "1900 - 2250m",
-    taste: "Hương hoa nhẹ, trà xanh, quả mọng, đường nâu.",
-  },
-};
 
-const PopupEthi = ({
-  popupData,
-}: {
-  popupData: {
-    name: string;
-    height: string;
-    taste: string;
-  };
-}) => {
+const PopupEthi = ({ popupData }: { popupData: MapPin }) => {
   return (
     <PopUpContainer>
       <h1>{popupData.name}</h1>
-      <p>
-        <b>Độ cao trồng hạt: </b>
-        {popupData.height}
-      </p>
-      <p>
-        <b>Hương vị: </b>
-        {popupData.taste}
-      </p>
+      <p dangerouslySetInnerHTML={{ __html: popupData.content }}></p>
     </PopUpContainer>
   );
 };
+
+const defaultPin = {
+  img: "",
+  name: "",
+  content: "",
+  id: "",
+  desc: "",
+};
+
 const PopUpContainer = styled.div`
+  text-align: left !important;
   h1 {
     font-size: 24px;
     font-weight: 600;
@@ -53,7 +39,37 @@ const PopUpContainer = styled.div`
   padding: 27px;
 `;
 const EthioHome = () => {
-  const [popupData, setPopupdata] = useState(ethiData.sidama);
+  const [popupData, setPopupdata] = useState<MapPin>({
+    img: "",
+    name: "",
+    content: "",
+    id: "",
+    desc: "",
+  });
+  const [mapPin, setMapPin] = useState<MapPin[]>([]);
+
+  const observable = useMemo(
+    () =>
+      SWR<{ pin_data: MapPin[] }>(
+        "https://sperocoffee.com/wp-json/vendor/v/pins?category=pin-ethiopia",
+        fetcher,
+        {
+          revalidateOnFocus: false,
+          revalidateOnWatch: false,
+        }
+      ),
+    []
+  );
+
+  useEffect(() => {
+    const watcher = observable.watch(({ data }) => {
+      setMapPin(data!.pin_data);
+    });
+    return () => {
+      watcher.unwatch();
+    };
+  });
+
   return EthiRoot
     ? createPortal(
         <>
@@ -76,6 +92,11 @@ const EthioHome = () => {
           </Tooltip>
           <div>
             <svg
+              style={{
+                height: "100%",
+                width: "100%",
+                maxWidth: "862px",
+              }}
               width="862"
               height="645"
               viewBox="0 0 862 645"
@@ -229,7 +250,9 @@ const EthioHome = () => {
               <path
                 className="ethipoint"
                 onMouseEnter={() => {
-                  setPopupdata(ethiData.sidama);
+                  setPopupdata(
+                    mapPin.find((i) => i.id === "sidama") || defaultPin
+                  );
                 }}
                 d="M304.292 418.75C295.101 418.75 287.667 426.184 287.667 435.375C287.667 447.844 304.292 466.25 304.292 466.25C304.292 466.25 320.917 447.844 320.917 435.375C320.917 426.184 313.483 418.75 304.292 418.75ZM304.292 441.312C302.717 441.312 301.207 440.687 300.094 439.573C298.98 438.46 298.354 436.95 298.354 435.375C298.354 433.8 298.98 432.29 300.094 431.177C301.207 430.063 302.717 429.438 304.292 429.438C305.867 429.438 307.377 430.063 308.49 431.177C309.604 432.29 310.229 433.8 310.229 435.375C310.229 436.95 309.604 438.46 308.49 439.573C307.377 440.687 305.867 441.312 304.292 441.312Z"
                 fill="#193969"
@@ -237,7 +260,9 @@ const EthioHome = () => {
               <path
                 className="ethipoint"
                 onMouseEnter={() => {
-                  setPopupdata(ethiData.guji);
+                  setPopupdata(
+                    mapPin.find((i) => i.id === "guji") || defaultPin
+                  );
                 }}
                 d="M441.07 516.416C434.458 516.416 429.111 521.763 429.111 528.374C429.111 537.343 441.07 550.583 441.07 550.583C441.07 550.583 453.028 537.343 453.028 528.374C453.028 521.763 447.681 516.416 441.07 516.416ZM441.07 532.645C439.937 532.645 438.851 532.195 438.05 531.394C437.249 530.593 436.799 529.507 436.799 528.374C436.799 527.242 437.249 526.155 438.05 525.354C438.851 524.553 439.937 524.104 441.07 524.104C442.202 524.104 443.289 524.553 444.09 525.354C444.891 526.155 445.34 527.242 445.34 528.374C445.34 529.507 444.891 530.593 444.09 531.394C443.289 532.195 442.202 532.645 441.07 532.645Z"
                 fill="#193969"

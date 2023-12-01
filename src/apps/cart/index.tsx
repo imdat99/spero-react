@@ -95,6 +95,14 @@ function CartApp() {
                   speed={500}
                   slidesToShow={2}
                   slidesToScroll={1}
+                  responsive={[
+                    {
+                      breakpoint: 576,
+                      settings: {
+                        slidesToShow: 1,
+                      },
+                    },
+                  ]}
                   customPaging={() => {
                     return (
                       <svg
@@ -116,7 +124,7 @@ function CartApp() {
                   ))}
                 </Slider>
               </div>
-              <div className="checkoutBtnGroup receive_percent_btn d-flex justify-content-between flex-wrap my-3">
+              <div className="checkoutBtnGroup receive_percent_btn d-flex justify-content-between flex-wrap my-3 w-100">
                 <button
                   onClick={handleNavigate}
                   data-navigate="/san-pham"
@@ -147,6 +155,17 @@ function CartApp() {
 
 export default CartApp;
 const CartContainer = styled.div`
+  @media only screen and (max-width: 480px) {
+    .cart-list-item {
+      padding-inline: 5px !important;
+    }
+    a.product_name_text {
+      font-size: 1rem !important;
+    }
+    .product-cart-icon {
+      padding: 0 !important;
+    }
+  }
   .suggest-item,
   .cart-list-item {
     padding-inline: 44px;

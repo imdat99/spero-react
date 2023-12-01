@@ -5,13 +5,16 @@ export const RadioGroup = ({
   children,
   title,
   onChange,
+  className,
 }: PropsWithChildren<{
   children: ReactNode | ReactNode[];
   title: string;
+  className?: string;
   onChange: (p?: any) => void;
 }>) => {
   return (
     <GroupContainer
+      className={className}
       role="radiogroup"
       aria-labelledby="group_heading"
       onChange={onChange}

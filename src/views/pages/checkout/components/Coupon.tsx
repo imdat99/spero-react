@@ -1,5 +1,8 @@
 // import { useState } from "react";
-import Select from "react-select";
+import { searchCoupon } from "@app/utils/constant";
+import { appRequest } from "@app/utils/request";
+import { debounce } from "lodash";
+import AsyncSelect from "react-select/async";
 import styled from "styled-components";
 
 const Coupon = () => {
@@ -8,21 +11,32 @@ const Coupon = () => {
   // const handleSetCode = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   console.log(e.currentTarget.value);
   // };
-  const opt = [
-    {
-      id: 1,
-      value: "ahihi",
-    },
-  ];
+  const _loadOptions = (
+    inputValue: string,
+    callback: (options: any) => void
+  ) => {
+    appRequest({
+      url: searchCoupon,
+      method: "POST",
+      body: JSON.stringify({ code: inputValue }),
+    }).then((r) => {
+      callback(() => r);
+    });
+  };
+  const loadOptions = debounce(_loadOptions, 500);
+
   return (
     <CouponContainer>
-      <Select
+      <AsyncSelect
+        loadOptions={loadOptions}
         // defaultValue={[opt[0]]}
-        isMulti
         name="colors"
-        options={opt}
+        // options={opt}
+        defaultOptions
+        // cacheOptions
         className="basic-multi-select"
-        classNamePrefix="Nhập mã khuyến mãi"
+        // classNamePrefix="Nhập mã khuyến mãi"
+        placeholder="Nhập mã khuyến mãi"
         classNames={{
           valueContainer: () => "valueContainer",
           input: () => "inputBlock",
@@ -31,6 +45,12 @@ const Coupon = () => {
             `${state.isFocused ? "isForcus" : ""} ${
               state.hasValue ? "hasValue" : ""
             } selectContainer`,
+        }}
+        getOptionLabel={(opt: any) => opt["value"]}
+        getOptionValue={(opt: any) => opt["id"]}
+        isClearable
+        onChange={(e) => {
+          console.log(e);
         }}
       />
       {/* <input

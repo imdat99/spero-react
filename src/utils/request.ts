@@ -26,3 +26,6 @@ export const appRequest = async ({
       if (setLoading) setLoading(false);
     });
 };
+
+export const fetcher = (url: string) =>
+  fetch(url, { method: "GET" }).then((res) => res.json());
