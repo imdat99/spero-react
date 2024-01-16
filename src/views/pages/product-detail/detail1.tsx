@@ -11,6 +11,7 @@ import { Link, useParams } from "react-router-dom";
 import { addToCartFn } from "./servide";
 import ProductCard from "@app/views/components/ProductCard";
 import styled from "styled-components";
+import Slider from "react-slick";
 
 type Position = {
   bottom: number;
@@ -45,7 +46,13 @@ const Detail1 = () => {
     y: 0,
   });
   const { height: containerHeight, top } = position;
-
+  const topAnimation = useMemo(
+    () => ((containerHeight + top) * 100) / containerHeight,
+    [containerHeight, top]
+  );
+  // console.log("aaaa: ", topAnimation);
+  console.log("aaaa: ", topAnimation, top + containerHeight > 1000);
+  // 0.5060728744939271
   useEffect(() => {
     const calcPosition = () => {
       // console.log(a);
@@ -54,15 +61,15 @@ const Detail1 = () => {
       }
     };
     setAnimation({
-      isAnimationInfo: containerHeight + top > 1435,
-      isAnimation: containerHeight + top > 1000,
-      startAnimation: containerHeight + top > 1200,
+      isAnimationInfo: topAnimation > 48.5,
+      isAnimation: topAnimation > 40.5,
+      startAnimation: topAnimation > 60.475,
     });
     window.addEventListener("scroll", calcPosition);
     return () => {
       window.removeEventListener("scroll", calcPosition);
     };
-  }, [containerHeight, el, top]);
+  }, [containerHeight, el, top, topAnimation]);
 
   const allProducts = useAppSelector(productStore);
   // const { attributes, data, weight_unit, variations } =
@@ -108,7 +115,9 @@ const Detail1 = () => {
       ),
     [allProducts, productData.cat.id, productData.data.product_id]
   );
-
+  const handleNavigate = () => {
+    window.open((window as any).zaloLink);
+  };
   return (
     <>
       {width > 575 ? (
@@ -154,9 +163,9 @@ const Detail1 = () => {
                         maxWidth: "670px",
                         top: animation.isAnimation ? "25%" : "80%",
                         transform:
-                          top < -405
+                          topAnimation < 99.8
                             ? "translate(0%,-40%)"
-                            : top < -100
+                            : topAnimation < 93
                             ? "translate(-65%, 25%)"
                             : "translate(-100%, -15%)",
                       }}
@@ -171,11 +180,7 @@ const Detail1 = () => {
                           // height: "100%",
                           width: "auto",
                           height:
-                            top < -405
-                              ? "290px"
-                              : top < -100
-                              ? "450px"
-                              : "750px",
+                            top < 99.8 ? "290px" : top < 93 ? "450px" : "750px",
 
                           // transform: scrollPercent < 0.05 ? "scale(1)" : "scale(0.75)",
                         }}
@@ -271,6 +276,7 @@ const Detail1 = () => {
                           <button
                             type="button"
                             className="btn btn-outline fw-semibold w-100"
+                            onClick={handleNavigate}
                           >
                             Nhận ưu đãi ngay
                           </button>
@@ -321,43 +327,100 @@ const Detail1 = () => {
         <>
           <div className="products-container">
             <div className="col-12 col-md-6">
-              <div className="spero-productThumb w-100 product-img p-3 m-auto text-center col-12">
-                <img
-                  src={data.product_image_url.src}
-                  alt={data.product_name || ""}
-                  srcSet={data.product_image_url.srcset}
-                  loading="lazy"
-                  style={{
-                    height: "auto",
-                    width: "100%",
+              <div className="spero-productThumb w-100 product-img pb-4 m-auto text-center col-12 mb-3">
+                <SlickStyled
+                  dots
+                  infinite
+                  autoplay={true}
+                  autoplaySpeed={5000}
+                  speed={700}
+                  slidesToShow={1}
+                  slidesToScroll={1}
+                  customPaging={() => {
+                    return (
+                      <svg
+                        width="19"
+                        height="6"
+                        viewBox="0 0 19 6"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect width="19" height="6" rx="3" fill="#EFEFEF" />
+                      </svg>
+                    );
                   }}
-                />
+                >
+                  <img
+                    src={data.product_image_url.src}
+                    alt={data.product_name || ""}
+                    srcSet={data.product_image_url.srcset}
+                    loading="lazy"
+                    style={{
+                      height: "auto",
+                      width: "100%",
+                    }}
+                  />
+                  {productData.data.product_gallery_urls.map((img, i) => (
+                    <img
+                      key={i}
+                      src={img.src}
+                      alt={data.product_name || ""}
+                      srcSet={img.srcset}
+                      loading="lazy"
+                      style={{
+                        height: "auto",
+                        width: "100%",
+                      }}
+                    />
+                  ))}
+                </SlickStyled>
               </div>
+              <MobileSlider className="mobile-products-info">
+                <Slider
+                  autoplay={true}
+                  autoplaySpeed={5000}
+                  slidesToShow={3}
+                  variableWidth={true}
+                  centerMode={true}
+                  infinite={true}
+                  initialSlide={3}
+                  slidesToScroll={1}
+                  centerPadding="0"
+                >
+                  {data.info
+                    .filter((i) => i.key !== "Hương vị")
+                    .map(({ key, value }, index) => (
+                      <div className="product-info-item" key={index}>
+                        {key}: {value}
+                      </div>
+                    ))}
+                </Slider>
+              </MobileSlider>
               <div className="info-container m-auto col-12">
                 <Link to="info" className="product_item spero-text-primary">
-                  <h1 className="spero-productTitle fs-1">
+                  <h1 className="mobile-spero-productTitle">
                     {data.product_name || ""}
                   </h1>
                 </Link>
-                <p className="product-price productCat-title fw-bold animation">
+                <p className="product-price productCat-title fw-bold mobile-spero-productTitle">
                   {Money(data.price)}
                 </p>
                 <p
-                  className="short_description story_time"
+                  className="short_description story_time mobile-short_description"
                   style={{
-                    lineHeight: "24px",
-                    fontSize: "18px",
+                    lineHeight: "20px",
+                    fontSize: "14px",
                   }}
                 >
                   {data.short_description}
                 </p>
-                <div className="row justify-content-between mb-5">
+                <div
+                  className="row justify-content-between"
+                  style={{ marginBottom: "36px" }}
+                >
                   <div className="product-weight mb-3 my-xl-auto col-12 col-xl-5 order-xl-2">
-                    <span className="label story_time fs-5">
-                      Khối lượng tịch:{" "}
-                      <b>
-                        {data.weight} {WEIGHT_UNIT[weight_unit]}
-                      </b>
+                    <span className="mobile-weight">
+                      Khối lượng tịch: {data.weight} {WEIGHT_UNIT[weight_unit]}
                     </span>
                   </div>
                   <ProductOption>
@@ -393,11 +456,12 @@ const Detail1 = () => {
                     ))}
                   </ProductOption>
                 </div>
-                <div className="row g-3">
+                <MobileBtn className="row g-3">
                   <div className="col-12 col-md-6">
                     <button
                       type="button"
                       className="btn btn-outline fw-semibold w-100"
+                      onClick={handleNavigate}
                     >
                       Nhận ưu đãi ngay
                     </button>
@@ -411,16 +475,17 @@ const Detail1 = () => {
                       Thêm vào giỏ hàng
                     </AddToCartbtn>
                   </div>
-                </div>
+                </MobileBtn>
               </div>
             </div>
             <div className="col-12 col-md-6 d-flex flex-wrap overflow-auto">
-              <div className="product-content section_mb mt-5">
+              <div className="product-content mt-5">
                 <div
+                  className="mobileDescription"
                   dangerouslySetInnerHTML={{ __html: data.description }}
                 ></div>
               </div>
-              <div className="gallery-img">
+              <div className="gallery-img d-none d-md-flex">
                 {productData.data.product_gallery_urls.map((img, i) => (
                   <div key={i} className="spero-productThumb w-100 product-img">
                     <img src={img.src} alt="" />
@@ -442,7 +507,7 @@ const Detail1 = () => {
             </div>
             <div className="listProducts row justify-content-center g-6">
               {sameCat.map(([id, product]) => (
-                <div className={"col-12 col-md-4 my-3"} key={id}>
+                <div className={"col-6 col-md-4 my-3"} key={id}>
                   <ProductCard product={product as PRODUCT_DATA} />
                 </div>
               ))}
@@ -458,8 +523,61 @@ export default Detail1;
 
 const ProductOption = styled.div`
   h3 {
+    font-size: 14px !important;
     display: block;
-    width: 100%;
-    margin-block: 1rem;
+    width: fit-content;
+  }
+  label {
+    padding: 10px 20px;
+    font-size: 12px;
+  }
+`;
+const SlickStyled = styled(Slider)`
+  width: 100%;
+  .slick-list {
+    overflow-x: hidden;
+  }
+  .slick-dots {
+    margin-top: 1rem;
+    .slick-active rect {
+      fill: var(--primary-1);
+    }
+  }
+  .slick-arrow {
+    display: none !important;
+  }
+`;
+
+const MobileSlider = styled.div`
+  width: 100%;
+  .slick-center {
+    .product-info-item {
+      color: var(--primary-1) !important;
+    }
+  }
+  .product-info-item {
+    margin-inline: 10px;
+    font-weight: 600;
+    color: var(--neutral-text-4);
+    font-size: 14px;
+  }
+  .slick-list {
+    overflow-x: hidden;
+    padding: 0 !important;
+    height: 58px;
+  }
+  .slick-slide {
+    padding-top: 9px;
+    padding-bottom: 9px;
+    border-top: 0.224px solid var(--Divider-2, #efefef);
+    border-bottom: 0.224px solid var(--Divider-2, #efefef);
+  }
+  .slick-arrow {
+    display: none !important;
+  }
+`;
+const MobileBtn = styled.div`
+  button {
+    font-size: 20px !important;
   }
 `;

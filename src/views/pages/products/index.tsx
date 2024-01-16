@@ -68,7 +68,6 @@ const Products = () => {
       watcher.unwatch();
     };
   });
-  
 
   return (
     <div className="section_mt" ref={containerRef}>
@@ -87,10 +86,10 @@ const Products = () => {
                   {item.description}
                 </p>
               </div>
-              <div className="listProducts row">
+              <div className="listProducts row g-3">
                 {item.products.map((product) => (
                   <div
-                    className="col-12 col-md-4 my-3"
+                    className="col-6 col-md-4 my-3"
                     key={product.data.product_id}
                   >
                     <ProductCard product={product} />

@@ -554,7 +554,9 @@ li.post-text:not(:last-child) {
 .post-text {
   /* margin-top: 14px; */
 }
-article figure {width: 100%}
+article figure {
+  width: 100%;
+}
 .post-text .post-date {
   font-size: 14px;
 }
@@ -680,7 +682,8 @@ article figure {width: 100%}
   font-size: 20px;
 }
 
-#spero-tooltip, #spero-tooltip2 {
+#spero-tooltip,
+#spero-tooltip2 {
   box-shadow: 8px 8px 9px 0px rgba(0, 0, 0, 0.05);
   max-width: 425px;
   opacity: 1;
@@ -1031,4 +1034,205 @@ a[disabled] {
 }
 .g-6 {
   --bs-gutter-x: 2rem;
+}
+@media only screen and (max-width: 480px) {
+  /* 	.cat-btn-group  {
+		height: 38px!important;
+		width: 38px!important;
+	} */
+  .svg-icon svg {
+    width: 20px !important;
+  }
+  .productCat-title {
+    font-size: 30px !important;
+  }
+  .productCat-des.spero__text,
+  .coffee-map .spero__text.spero-text-primary {
+    font-size: 14px;
+  }
+  .coffee-map .note-info {
+    min-width: 15px !important;
+    font-size: 11px !important;
+  }
+  .productCard-footer {
+    display: none !important;
+  }
+  .offcanvas-body {
+    display: flex !important;
+    min-height: calc(100vh - 70px) !important;
+    flex-direction: column !important;
+  }
+  .menu-container {
+    flex: 1 1 0%;
+  }
+  .mobile-term:not(:first-child) {
+    margin-top: 3rem;
+  }
+  .term-name h2 {
+    font-size: 30px;
+  }
+  .term-name a.story_time {
+    font-size: 16px !important;
+  }
+  .post-img {
+    height: fit-content !important;
+  }
+  .post-img img {
+    height: auto !important;
+  }
+  .w-mobile-50 {
+    width: 50% !important;
+    padding: 10px;
+    height: fit-content !important;
+  }
+  .mobile-post {
+    width: 50% !important;
+    padding: 10px;
+  }
+  .post-title {
+    font-size: 14px !important;
+  }
+  .post-item + .post-item {
+    margin-top: unset !important;
+  }
+  .post-item .post-img {
+    width: 100% !important;
+  }
+  .post-item .post-text {
+    width: 100% !important;
+    padding-left: 0 !important;
+  }
+  .post-new-container {
+    display: none !important;
+  }
+  .story-text ul {
+    padding-left: 1.15rem !important;
+  }
+  .story-title {
+    letter-spacing: 10px;
+    margin-bottom: 1.5rem;
+  }
+  .page-nav-icon {
+    height: 38px;
+    width: 38px;
+  }
+  .menu-sub {
+    margin-top: 16px;
+  }
+  /* 	.menu-list {
+		height: calc(100vh - 174px);
+	} */
+  .menu-nav-item {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+  .menu-nav-link {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 36px;
+    color: var(--primary-1);
+  }
+  .menu-sub {
+    list-style: none;
+    padding-left: 0;
+  }
+  .menu-sub-item {
+    color: var(--primary-1);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 26px;
+  }
+  .menu-sub li + li {
+    margin-top: 24px;
+  }
+  .ethi-group-guji {
+    transform: translate(-51%, -87%);
+  }
+  .ethi-group-sidama {
+    transform: translate(-35%, -73%);
+  }
+  .story_coffee_item + .story_coffee_item {
+    padding-top: 12px !important;
+  }
+  .product_name_text.spero-text-primary {
+    font-size: 18px;
+  }
+  .ethipoint {
+    width: 100px;
+    height: 100px;
+    transform: scale(2);
+  }
+  :root {
+    --fs-md: 24px !important;
+  }
+  .spero__text.mobile {
+    font-size: 14px !important;
+  }
+  .story_title {
+    margin-bottom: 18px !important;
+  }
+  .products.products-container.section_mb.section_mt {
+    margin: 10px auto;
+  }
+  .products-container.section_mb.mt-5 {
+    margin-bottom: 0;
+    margin-top: 10px !important;
+  }
+  #toc_container,
+  #toc_container {
+    padding: 5px 10px !important;
+  }
+  .story-number {
+    display: flex;
+    margin-bottom: 1rem;
+  }
+  .story_time {
+    font-size: 12px !important;
+  }
+  .post-container .post-text,
+  .post-new-with-img .post-text {
+    padding-top: 1rem;
+  }
+  .post-new-container .menu-list {
+    padding: 0;
+  }
+  .contact-content {
+    height: 420px;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+  }
+  .home-btn {
+    width: 150px !important;
+    margin-bottom: 10px;
+    font-size: 16px !important;
+    padding-block: 10px !important;
+  }
+  .story-carousel {
+    width: 100% !important;
+    overflow-x: hidden;
+  }
+  .nav-link.spero__text {
+    text-align: left !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+  }
+  .mt-mobile {
+    margin-top: 40px !important;
+  }
+  .coffee_bean_img {
+    width: 200px;
+    margin: auto;
+  }
+  .w-sm-100 {
+    width: 100% !important;
+  }
+  .mobile-spero-productTitle {
+    font-size: 24px;
+  }
+  .mobile-weight {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--primary-1);
+  }
 }

@@ -124,24 +124,26 @@ function CartApp() {
                   ))}
                 </Slider>
               </div>
-              <div className="checkoutBtnGroup receive_percent_btn d-flex justify-content-between flex-wrap my-3 w-100">
-                <button
-                  onClick={handleNavigate}
-                  data-navigate="/san-pham"
-                  type="button"
-                  className="btn btn-outline fw-semibold w-100 w-md-48 mb-3"
-                >
-                  Tiếp tục mua sắm
-                </button>
-                <button
-                  onClick={handleNavigate}
-                  data-navigate="/thanh-toan"
-                  type="button"
-                  className="btn btn-normal fw-semibold w-100 w-md-48 mb-3"
-                >
-                  Thanh toán
-                </button>
-              </div>
+              <ButtonCart className="suggest-item">
+                <div className="checkoutBtnGroup receive_percent_btn d-flex justify-content-between flex-wrap my-3 w-100">
+                  <button
+                    onClick={handleNavigate}
+                    data-navigate="/san-pham"
+                    type="button"
+                    className="btn btn-outline fw-semibold w-100 w-md-48 mb-3"
+                  >
+                    Tiếp tục mua sắm
+                  </button>
+                  <button
+                    onClick={handleNavigate}
+                    data-navigate="/thanh-toan"
+                    type="button"
+                    className="btn btn-normal fw-semibold w-100 w-md-48 mb-3"
+                  >
+                    Thanh toán
+                  </button>
+                </div>
+              </ButtonCart>
             </div>
           </BlurLayout>
         )}
@@ -209,16 +211,18 @@ const CartContainer = styled.div`
       fill: var(--primary-1);
     }
   }
-  /* .slick-dots li button {
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: 0 10px;
-    background-color: var(--primary-1);
-    &:before {
-      content: "";
-      /* padding: 1px; 
-      border-radius: 100px;
-    }
-  } */
+  margin-bottom: 130px;
+  @media only screen and (max-width: 480px) {
+    margin-bottom: 250px;
+  }
+`;
+const ButtonCart = styled.div`
+  background: #fff;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: calc(var(--bs-offcanvas-width) - 1px);
+  @media only screen and (max-width: 480px) {
+    width: 100%;
+  }
 `;

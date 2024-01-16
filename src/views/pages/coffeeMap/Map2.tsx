@@ -1,6 +1,6 @@
 import { useDebounce } from "@app/stores/hooks";
-import { PageUrl } from "@app/utils/constant";
 import { MapPin, PRODUCT_TAG } from "@app/utils/types";
+import useWindowSize from "@app/utils/useWindowSize";
 import { useState } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
 import { Tooltip } from "react-tooltip";
@@ -69,6 +69,7 @@ const Map2: React.FC<{ map_tags: PRODUCT_TAG[]; mapPin: MapPin[] }> = ({
       window.open("/viet-nam", "_self");
     }
   };
+  const { width } = useWindowSize();
 
   return (
     <>
@@ -101,8 +102,8 @@ const Map2: React.FC<{ map_tags: PRODUCT_TAG[]; mapPin: MapPin[] }> = ({
       >
         <Popup2 mapPin={mapPin.find((i) => i.id === pinHover) || mapPin[0]} />
       </Tooltip>
-      <MapStyled className="spero-map position-relative d-none d-md-block">
-        <div className="group-btn position-absolute">
+      <MapStyled className="spero-map position-relative">
+        <div className="group-btn position-absolute d-none d-md-block">
           <button
             type="button"
             disabled={zoom < 1}
@@ -158,13 +159,16 @@ const Map2: React.FC<{ map_tags: PRODUCT_TAG[]; mapPin: MapPin[] }> = ({
             </svg>
           </button>
         </div>
-        <Scrollbars style={{ height: 980 }}>
+        <Scrollbars style={{ height: width > 575 ? 980 : 260 }}>
           <MapStyled className="spero-map position-relative over">
             <div
               className="mapContainer spero-map position-relative"
               style={{
                 transform: `scale(${zoomDebounce})`,
                 transition: "all .5s ease-in-out 0.1s",
+                height: "100%",
+                width: "100%",
+                maxWidth: "1920px",
               }}
             >
               <svg
@@ -2335,8 +2339,14 @@ const Map2: React.FC<{ map_tags: PRODUCT_TAG[]; mapPin: MapPin[] }> = ({
           </MapStyled>
         </Scrollbars>
       </MapStyled>
-      <div className="products-container my-5 coffee-map d-none d-md-block">
-        <ul>
+      <div className="products-container my-md-5 coffee-map d-flex flex-wrap">
+        <p className="spero__text spero-text-primary text-center products-container d-md-none">
+          Bản đồ giống như một cuốn nhật ký thú vị ghi lại cuộc hành trình khám
+          phá của Spero trong thế giới của cà phê. Trong hành trình của mình,
+          Spero sẽ đi qua nhiều vùng đất trên vành để gặp gỡ và tìm hiểu về
+          những nét văn hóa độc đáo gắn liền với cà phê.
+        </p>
+        <ul className="w-mobile-50">
           {noteInfoCoffee.map((item) => (
             <li key={item.id}>
               <p className="note-info">
@@ -2359,21 +2369,25 @@ const Map2: React.FC<{ map_tags: PRODUCT_TAG[]; mapPin: MapPin[] }> = ({
             </li>
           ))}
         </ul>
-        <ul>
+        <ul className="w-mobile-50">
           {noteInfoBean.map((item) => (
             <li key={item.id}>
               <p className="note-info">
                 <span className="svg-icon">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="21"
-                    height="30"
-                    viewBox="0 0 21 30"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 32 32"
                     fill="none"
                   >
                     <path
-                      d="M10.5 0C4.695 0 0 4.695 0 10.5C0 18.375 10.5 30 10.5 30C10.5 30 21 18.375 21 10.5C21 4.695 16.305 0 10.5 0ZM10.5 14.25C9.50544 14.25 8.55161 13.8549 7.84835 13.1517C7.14509 12.4484 6.75 11.4946 6.75 10.5C6.75 9.50544 7.14509 8.55161 7.84835 7.84835C8.55161 7.14509 9.50544 6.75 10.5 6.75C11.4946 6.75 12.4484 7.14509 13.1517 7.84835C13.8549 8.55161 14.25 9.50544 14.25 10.5C14.25 11.4946 13.8549 12.4484 13.1517 13.1517C12.4484 13.8549 11.4946 14.25 10.5 14.25Z"
-                      fill={item.fill}
+                      d="M8.00033 23.9994C9.91795 23.7147 11.6693 22.75 12.9348 21.2814C14.2002 19.8127 14.8955 17.9381 14.8937 15.9994C14.9033 13.5659 15.7861 11.2166 17.3815 9.37897C18.9769 7.54132 21.1789 6.33737 23.587 5.98608L27.0403 5.49275C26.947 5.38608 26.867 5.27942 26.7603 5.17275C22.4137 0.826083 14.067 2.13275 8.09366 8.07942C3.04033 13.1994 1.33366 19.9994 3.68033 24.6127L8.00033 23.9994Z"
+                      fill="#BECDE0"
+                    />
+                    <path
+                      d="M16.9732 15.9998C16.9645 18.4329 16.084 20.7823 14.4915 22.6219C12.899 24.4614 10.6999 25.6693 8.29318 26.0265L5.01318 26.4931L5.21318 26.7198C9.55985 31.0665 17.9065 29.7731 23.8799 23.8265C28.9065 18.8131 30.6665 11.9998 28.3332 7.45312L23.8799 8.09313C21.9745 8.36991 20.2309 9.31909 18.9643 10.7691C17.6976 12.2192 16.9914 14.0745 16.9732 15.9998Z"
+                      fill="#BECDE0"
                     />
                   </svg>
                 </span>
@@ -2382,7 +2396,7 @@ const Map2: React.FC<{ map_tags: PRODUCT_TAG[]; mapPin: MapPin[] }> = ({
             </li>
           ))}
         </ul>
-        <p className="spero__text spero-text-primary text-center products-container">
+        <p className="spero__text spero-text-primary text-center products-container d-none d-md-block">
           Bản đồ giống như một cuốn nhật ký thú vị ghi lại cuộc hành trình khám
           phá của Spero trong thế giới của cà phê. Trong hành trình của mình,
           Spero sẽ đi qua nhiều vùng đất trên vành để gặp gỡ và tìm hiểu về
@@ -2410,12 +2424,6 @@ const MapStyled = styled.div`
     cursor: pointer;
   }
 
-  .hero-image {
-    // background-image: url(${PageUrl}/wp-content/themes/spero/svg/map2.svg); /* The image used */
-    /* background-position: center; Center the image */
-    // background-repeat: no-repeat; /* Do not repeat the image */
-    /* background-size: cover; Resize the background image to cover the entire container */
-  }
   .group-btn {
     text-align: left;
     z-index: 1;
@@ -2425,6 +2433,11 @@ const MapStyled = styled.div`
       border-bottom: 1px solid var(--primary-1);
       border-radius: 0;
       padding: 10px 20px;
+      @media only screen and (max-width: 480px) {
+        & {
+          padding: 5px 10px !important;
+        }
+      }
       &.inc {
         border-right: 1px solid var(--primary-1);
         border-top-right-radius: 45%;
