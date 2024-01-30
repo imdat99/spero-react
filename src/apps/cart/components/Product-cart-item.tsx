@@ -3,6 +3,7 @@ import { useAppSelector, useSafeState } from "@app/stores/hooks";
 import { Money } from "@app/utils/helper-function";
 import { CART_ITEM } from "@app/utils/types";
 import QuantityButton from "@app/views/components/QuantityButton";
+import { isEmpty } from "lodash";
 import { FC, memo, useEffect } from "react";
 import styled from "styled-components";
 
@@ -35,7 +36,6 @@ const ProductCartItem: FC<{
       handle.update({ item_id: itemKey, quantity: quantity });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quantity]);
-
   return (
     <CartItem className="d-flex">
       <button
@@ -62,14 +62,15 @@ const ProductCartItem: FC<{
         <img
           src={productData.data.product_image_url.thumb_src}
           alt={`${productData.data.product_name} - ${
-            Object.values(variation)[0] as string
+            !isEmpty(variation) && (Object.values(variation)[0] as string)
           }`}
         />
       </div>
       <CartInfo>
         <h4>
-          {productData.data.product_name} -{" "}
-          {Object.values(variation)[0] as string}
+          {productData.data.product_name}{" "}
+          {!isEmpty(variation) &&
+            "- " + (Object.values(variation)[0] as string)}
         </h4>
         <span className="spero__text">{Money(productData.data.price)}</span>
         <QuantityButton setQuantity={setQuantity} quantity={quantity} />

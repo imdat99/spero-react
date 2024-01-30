@@ -1,9 +1,10 @@
 import { Money } from "@app/utils/helper-function";
 import { PRODUCT_DATA } from "@app/utils/types";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { addToCartFn } from "../pages/product-detail/servide";
+import MoneySale from "./MoneySale";
 
 const ProductCard: React.FC<{ product: PRODUCT_DATA }> = ({ product }) => {
   const [loading, setLoading] = useState(false);
@@ -11,15 +12,15 @@ const ProductCard: React.FC<{ product: PRODUCT_DATA }> = ({ product }) => {
     () => product.data.stock_status === "instock",
     [product.data.stock_status]
   );
-  const handleAddToCart = useCallback(() => {
+  const handleAddToCart = () => {
     addToCartFn(
       1,
       product.data.product_id,
-      product.variations[0].variation_id,
+      product.variations.length ? product.variations[0].variation_id : "",
       product.data.url,
       setLoading
     );
-  }, [product.data.product_id, product.data.url, product.variations]);
+  };
   return (
     <>
       <div className="product-img position-relative">
@@ -48,6 +49,7 @@ const ProductCard: React.FC<{ product: PRODUCT_DATA }> = ({ product }) => {
       <div className="productCard-footer d-flex justify-content-between mt-3">
         <div className="product-price product_name_text flex-1">
           {Money(product.data.price)}
+          <MoneySale regularPrice={product.data.regular_price} />
         </div>
         <button
           disabled={loading}

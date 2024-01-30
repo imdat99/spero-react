@@ -1,17 +1,23 @@
 import { useAppSelector } from "@app/stores/hooks";
 import { productStore } from "@app/stores/product";
 import { WEIGHT_UNIT } from "@app/utils/constant";
-import { Money } from "@app/utils/helper-function";
+import {
+  Money,
+  decodeHTML,
+  elementIsVisibleInViewport,
+} from "@app/utils/helper-function";
 import { PRODUCT_DATA } from "@app/utils/types";
 import useWindowSize from "@app/utils/useWindowSize";
 import AddToCartbtn from "@app/views/components/AddToCart";
 import { Radio, RadioGroup } from "@app/views/components/RadioGroup";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { addToCartFn } from "./servide";
 import ProductCard from "@app/views/components/ProductCard";
 import styled from "styled-components";
 import Slider from "react-slick";
+import MoneySale from "@app/views/components/MoneySale";
+import { isEmpty } from "lodash";
 
 type Position = {
   bottom: number;
@@ -25,6 +31,7 @@ type Position = {
 };
 
 const Detail1 = () => {
+  const scrollPos = useRef<number>(0);
   const [el, setEl] = useState<HTMLDivElement | null>(null);
   const [animation, setAnimation] = useState<{
     isAnimationInfo: boolean;
@@ -50,58 +57,29 @@ const Detail1 = () => {
     () => ((containerHeight + top) * 100) / containerHeight,
     [containerHeight, top]
   );
-  // console.log("aaaa: ", topAnimation);
-  console.log("aaaa: ", topAnimation, top + containerHeight > 1000);
-  // 0.5060728744939271
-  useEffect(() => {
-    const calcPosition = () => {
-      // console.log(a);
-      if (el) {
-        setPosition(el.getBoundingClientRect());
-      }
-    };
-    setAnimation({
-      isAnimationInfo: topAnimation > 48.5,
-      isAnimation: topAnimation > 40.5,
-      startAnimation: topAnimation > 60.475,
-    });
-    window.addEventListener("scroll", calcPosition);
-    return () => {
-      window.removeEventListener("scroll", calcPosition);
-    };
-  }, [containerHeight, el, top, topAnimation]);
+  const { width } = useWindowSize();
+
+  const [isInview, setIsInview] = useState(false);
+  const lastelement = document.querySelector("#last-item");
+  const lastImg = document.querySelector("#last-img");
 
   const allProducts = useAppSelector(productStore);
   // const { attributes, data, weight_unit, variations } =
   //   useAppSelector(productStore);
   const { slug } = useParams();
-  const productData = useMemo(() => {
-    const data = Object.entries(allProducts).find(
+  const productData = Object.values(
+    Object.entries(allProducts).find(
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       ([_, value]) => value.slug === slug
-    )!;
-    return Object.values(data)[1];
-  }, [allProducts, slug]) as PRODUCT_DATA;
-
-  useEffect(() => {
-    setAnimation({
-      isAnimationInfo: false,
-      isAnimation: false,
-      startAnimation: false,
-    });
-    window.scrollTo({
-      top: 10,
-      left: 0,
-      behavior: "smooth",
-    });
-  }, [slug]);
+    )!
+  )[1] as PRODUCT_DATA;
 
   const { attributes, data, weight_unit, variations } = productData;
-  const { width } = useWindowSize();
+
+  const zoomConstant = Math.round((width * 10) / 1920) / 10;
   const [loading, setLoading] = useState<boolean>(false);
-  const [variation, setVariation] = useState<string>(
-    variations[0]?.variation_id || "1"
-  );
+  const [variation, setVariation] = useState<string>("");
+
   const handleAddToCart = useCallback(() => {
     addToCartFn(1, data.product_id, variation, data.url, setLoading);
   }, [data, variation]);
@@ -118,6 +96,64 @@ const Detail1 = () => {
   const handleNavigate = () => {
     window.open((window as any).zaloLink);
   };
+  const price = useMemo(
+    () =>
+      variations.find((item) => item.variation_id === variation)
+        ?.display_price || data.price,
+    [data, variations, variation]
+  );
+
+  useEffect(() => {
+    const calcPosition = () => {
+      const documentTop = document.body.getBoundingClientRect().top;
+      // console.log(a);
+      const isView = elementIsVisibleInViewport(lastelement as any);
+      setIsInview((prev): any => {
+        if (documentTop < scrollPos.current) {
+          // Down
+          if (!prev && isView) return isView;
+          return prev;
+        } else {
+          if (!prev || elementIsVisibleInViewport(lastImg as any)) return false;
+          if (prev) return true;
+        }
+      });
+      if (el) {
+        setPosition(el.getBoundingClientRect());
+      }
+
+      scrollPos.current = documentTop;
+    };
+    setAnimation({
+      isAnimationInfo: topAnimation > 48.5,
+      isAnimation: topAnimation > 40.5,
+      startAnimation: topAnimation > 60.475,
+    });
+    window.addEventListener("scroll", calcPosition);
+    return () => {
+      window.removeEventListener("scroll", calcPosition);
+      console.log("adsas");
+    };
+  }, [containerHeight, top, topAnimation, el, lastelement]);
+
+  useEffect(() => {
+    setAnimation({
+      isAnimationInfo: false,
+      isAnimation: false,
+      startAnimation: false,
+    });
+    window.scrollTo({
+      top: 10,
+      left: 0,
+      behavior: "smooth",
+    });
+    setVariation(variations[0]?.variation_id);
+    return () => {
+      setIsInview(false);
+      setVariation("");
+    };
+  }, [slug, variations]);
+
   return (
     <>
       {width > 575 ? (
@@ -145,9 +181,15 @@ const Detail1 = () => {
                             key={i}
                             className="spero-productThumb w-100 product-img"
                           >
-                            <img src={img.src} alt="" />
+                            {i ===
+                            productData.data.product_gallery_urls.length - 1 ? (
+                              <img src={img.full_src} alt="" id="last-img" />
+                            ) : (
+                              <img src={img.full_src} alt="" />
+                            )}
                           </div>
                         ))}
+                        <div id="last-item"></div>
                       </div>
                     </div>
                   </div>
@@ -159,15 +201,16 @@ const Detail1 = () => {
                           : ""
                       }`}
                       style={{
-                        position: animation.isAnimation ? "fixed" : "absolute",
+                        position: !isInview ? "fixed" : "absolute",
                         maxWidth: "670px",
-                        top: animation.isAnimation ? "25%" : "80%",
+                        top: !isInview ? "27%" : "81%",
+                        zoom: width < 1380 ? zoomConstant : 1,
                         transform:
-                          topAnimation < 99.8
+                          topAnimation < 95
                             ? "translate(0%,-40%)"
-                            : topAnimation < 93
-                            ? "translate(-65%, 25%)"
-                            : "translate(-100%, -15%)",
+                            : // : topAnimation < 100
+                              // ? "translate(-65%, -15%)"
+                              "translate(-105%, -15%)",
                       }}
                     >
                       <img
@@ -180,28 +223,30 @@ const Detail1 = () => {
                           // height: "100%",
                           width: "auto",
                           height:
-                            top < 99.8 ? "290px" : top < 93 ? "450px" : "750px",
+                            topAnimation < 95
+                              ? "290px"
+                              : topAnimation < 100
+                              ? "450px"
+                              : "750px",
 
-                          // transform: scrollPercent < 0.05 ? "scale(1)" : "scale(0.75)",
+                          // transform: scrollPercent < 0.05 ? "scale(1)" : "scale(zoomConstant5)",
                         }}
                       />
                     </div>
                     <div
                       className="info-container m-auto"
                       style={{
-                        position: animation.isAnimation ? "fixed" : "absolute",
+                        position: !isInview ? "fixed" : "absolute",
                         maxWidth: "670px",
-                        top: animation.isAnimation
-                          ? top < -405
-                            ? "40%"
+                        zoom: width < 1380 ? zoomConstant : 1,
+                        top: !isInview
+                          ? topAnimation < 95
+                            ? "47%"
                             : "30%"
                           : "85%",
                       }}
                     >
-                      <Link
-                        to="info"
-                        className="product_item spero-text-primary"
-                      >
+                      <Link to="" className="product_item spero-text-primary">
                         <h1
                           className="spero-productTitle animation"
                           style={{
@@ -219,7 +264,8 @@ const Detail1 = () => {
                           marginBottom: top < 0 ? "unset" : "1.5rem",
                         }}
                       >
-                        {Money(data.price)}
+                        {Money(price)}
+                        <MoneySale regularPrice={data.regular_price} />
                       </p>
                       <p
                         className="short_description story_time"
@@ -230,7 +276,10 @@ const Detail1 = () => {
                         {data.short_description}
                       </p>
                       <div className="row justify-content-between mb-5">
-                        <div className="product-weight mb-3 my-xl-auto col-12 col-xl-5 order-xl-2">
+                        <div
+                          className="product-weight mb-3 my-xl-auto col-12 col-xl-5 order-xl-2"
+                          style={isEmpty(attributes) ? { width: "100%" } : {}}
+                        >
                           <span className="label story_time">
                             Khối lượng tịch:{" "}
                             <b>
@@ -238,38 +287,41 @@ const Detail1 = () => {
                             </b>
                           </span>
                         </div>
-                        <div className="col-12 col-xl-7 order-xl-1">
-                          {Object.keys(attributes).map((key, _i) => (
-                            <RadioGroup
-                              key={_i}
-                              title={key}
-                              onChange={(e) => setVariation(e.target.value)}
-                            >
-                              {attributes[key].map((item, index) => {
-                                const variation_ids = variations.find((item_) =>
-                                  Object.entries(item_.attributes).find(
-                                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                                    ([_k, value]) => value === item
-                                  )
-                                );
+                        {!isEmpty(attributes) && (
+                          <div className="col-12 col-xl-7 order-xl-1">
+                            {Object.keys(attributes).map((key, _i) => (
+                              <RadioGroup
+                                key={_i}
+                                title={key}
+                                onChange={(e) => setVariation(e.target.value)}
+                              >
+                                {attributes[key].map((item, index) => {
+                                  const variation_ids = variations.find(
+                                    (item_) =>
+                                      Object.entries(item_.attributes).find(
+                                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                                        ([_k, value]) => value === item
+                                      )
+                                  );
 
-                                return (
-                                  <Radio
-                                    key={index}
-                                    id={
-                                      (variation_ids?.variation_id ||
-                                        index) as string
-                                    }
-                                    name="variation_id"
-                                    defaultChecked={index === 0}
-                                  >
-                                    <span>{item}</span>
-                                  </Radio>
-                                );
-                              })}
-                            </RadioGroup>
-                          ))}
-                        </div>
+                                  return (
+                                    <Radio
+                                      key={index}
+                                      id={
+                                        (variation_ids?.variation_id ||
+                                          index) as string
+                                      }
+                                      name="variation_id"
+                                      defaultChecked={index === 0}
+                                    >
+                                      <span>{item}</span>
+                                    </Radio>
+                                  );
+                                })}
+                              </RadioGroup>
+                            ))}
+                          </div>
+                        )}
                       </div>
                       <div className="row gx-3">
                         <div className="col-12 col-md-6">
@@ -300,7 +352,9 @@ const Detail1 = () => {
           <div
             className="info-section"
             style={{
-              width: width - 20,
+              // width: width - 20,
+              width: "100%",
+              zoom: width < 1380 ? zoomConstant : 1,
               zIndex: 1,
               background: "#fff",
               bottom: 0,
@@ -317,7 +371,7 @@ const Detail1 = () => {
                 )
                 .map(({ key, value }, index) => (
                   <span className="w-xs-50" key={index}>
-                    {key}: <b>{value}</b>
+                    {key}: <b>{decodeHTML(value)}</b>
                   </span>
                 ))}
             </div>
@@ -332,7 +386,7 @@ const Detail1 = () => {
                   dots
                   infinite
                   autoplay={true}
-                  autoplaySpeed={5000}
+                  autoplaySpeed={3000}
                   speed={700}
                   slidesToShow={1}
                   slidesToScroll={1}
@@ -378,7 +432,7 @@ const Detail1 = () => {
               <MobileSlider className="mobile-products-info">
                 <Slider
                   autoplay={true}
-                  autoplaySpeed={5000}
+                  autoplaySpeed={3000}
                   slidesToShow={3}
                   variableWidth={true}
                   centerMode={true}
@@ -391,19 +445,20 @@ const Detail1 = () => {
                     .filter((i) => i.key !== "Hương vị")
                     .map(({ key, value }, index) => (
                       <div className="product-info-item" key={index}>
-                        {key}: {value}
+                        {key}: {decodeHTML(value)}
                       </div>
                     ))}
                 </Slider>
               </MobileSlider>
               <div className="info-container m-auto col-12">
-                <Link to="info" className="product_item spero-text-primary">
+                <Link to="" className="product_item spero-text-primary">
                   <h1 className="mobile-spero-productTitle">
                     {data.product_name || ""}
                   </h1>
                 </Link>
                 <p className="product-price productCat-title fw-bold mobile-spero-productTitle">
-                  {Money(data.price)}
+                  {Money(price)}
+                  <MoneySale regularPrice={data.regular_price} />
                 </p>
                 <p
                   className="short_description story_time mobile-short_description"
@@ -505,7 +560,7 @@ const Detail1 = () => {
                 <span className="text-uppercase">{productData.cat.name}</span>
               </p>
             </div>
-            <div className="listProducts row justify-content-center g-6">
+            <div className="listProducts row justify-content-md-center g-6">
               {sameCat.map(([id, product]) => (
                 <div className={"col-6 col-md-4 my-3"} key={id}>
                   <ProductCard product={product as PRODUCT_DATA} />

@@ -56,11 +56,17 @@ const Prices = ({
           <tfoot>
             <tr>
               <td colSpan={2}>
-                <p className="shipping-info">
-                  Free delivery within 5km on orders above VND 1,500,000.
-                  Additional VND 100,000/order for 5km and above or for billing
-                  below VND 1,500,000
-                </p>
+                <ol className="shipping-info" style={{}}>
+                  <li>
+                    Áp dụng <b>MIỄN PHÍ GIAO HÀNG</b> cho đơn hàng nội thành Hà
+                    Nội.
+                  </li>
+                  <li>
+                    Đối với đơn ngoại thành, Quý khách vui lòng để lại thông tin
+                    liên hệ để Spero xác nhận thông tin và thông báo phí giao
+                    hàng.
+                  </li>
+                </ol>
               </td>
             </tr>
           </tfoot>

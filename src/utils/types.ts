@@ -28,6 +28,7 @@ export type PRODUCT_DATA = {
   variations: {
     variation_id: string;
     attributes: Record<string, string>;
+    display_price: string;
   }[];
   weight_unit: string;
   data: {
@@ -37,6 +38,7 @@ export type PRODUCT_DATA = {
     url: string;
     short_description: string;
     description: string;
+    regular_price: string;
     price: string;
     product_image_url: WP_IMG_INFO;
     product_gallery_urls: WP_IMG_INFO[];

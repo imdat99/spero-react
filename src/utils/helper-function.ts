@@ -1,5 +1,31 @@
 import { PROVINCE } from "./types";
 
+// export function decodeHTML(str: string) {
+//   return str.replace(/&#(\d+);/g, function (_match, dec) {
+//     return String.fromCharCode(dec);
+//   });
+// }
+export function decodeHTML(input: string) {
+  var e = document.createElement("textarea");
+  e.innerHTML = input;
+  // handle case of empty input
+  return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+}
+export const elementIsVisibleInViewport = (
+  el?: Element,
+  partiallyVisible = false
+) => {
+  if (el) {
+    const { top, left, bottom, right } = el.getBoundingClientRect();
+    const { innerHeight, innerWidth } = window;
+    return partiallyVisible
+      ? ((top > 0 && top < innerHeight) ||
+          (bottom > 0 && bottom < innerHeight)) &&
+          ((left > 0 && left < innerWidth) || (right > 0 && right < innerWidth))
+      : top >= 0 && left >= 0 && bottom <= innerHeight && right <= innerWidth;
+  }
+  return false;
+};
 export const Money = (v: string | number) =>
   String(v || "0").replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "đ";
 
@@ -18,7 +44,7 @@ export const getNonce = (url: string) => {
 export const objectBody = (obj: Record<string, any>) => {
   const body = new FormData();
   Object.entries(obj).forEach(([key, val]) => {
-    body.append(key, val);
+    if (val) body.append(key, val);
   });
   return body;
 };

@@ -1,0 +1,15 @@
+.animate {
+  animation-name: product-animation;
+  animation-duration: 3s;
+}
+@keyframes product-animation {
+  0% {
+    transform: translate(0%, -40%);
+  }
+  50% {
+    transform: translate(-65%, -15%);
+  }
+  100% {
+    transform: translate(-100%, -15%);
+  }
+}

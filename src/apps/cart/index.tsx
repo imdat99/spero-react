@@ -46,7 +46,6 @@ function CartApp() {
       window.open(url, "_self");
     }
   };
-
   return cartRootElement ? (
     createPortal(
       <CartContainer>

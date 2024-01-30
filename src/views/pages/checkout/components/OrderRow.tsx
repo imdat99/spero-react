@@ -3,6 +3,7 @@ import { useAppSelector, useSafeState } from "@app/stores/hooks";
 import { Money } from "@app/utils/helper-function";
 import { CART_ITEM } from "@app/utils/types";
 import QuantityButton from "@app/views/components/QuantityButton";
+import { isEmpty } from "lodash";
 import { memo, useEffect } from "react";
 
 const OrderRow: React.FC<{
@@ -45,13 +46,15 @@ const OrderRow: React.FC<{
             <img
               src={productData.data.product_image_url.gallery_thumbnail_src}
               alt={`${productData.data.product_name} - ${
-                Object.values(variation)[0] as string
+                !isEmpty(variation) && (Object.values(variation)[0] as string)
               }`}
             />
           </div>
           <div className="product-title">
             <p>{productData.data.product_name}</p>
-            <span>{Object.values(variation)[0] as string}</span>
+            {!isEmpty(variation) && (
+              <span>{Object.values(variation)[0] as string}</span>
+            )}
           </div>
         </div>
       </td>

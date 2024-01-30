@@ -7,6 +7,7 @@ import BlurLayout from "@app/views/components/BlurLayout";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Scrollbars from "react-custom-scrollbars-2";
+import { decodeHTML } from "@app/utils/helper-function";
 
 const searchRootElement = document.getElementById("spero-app-search");
 
@@ -118,19 +119,21 @@ const SperoSearch = () => {
               <SearchResult className="result-container">
                 {searchResult.length ? (
                   <ul className="list-result">
-                    {searchResult.map((item, index) => (
-                      <li key={index}>
-                        <Link to={item.url} reloadDocument className="d-flex">
-                          <div className="result-img">
-                            <img
-                              src={item.featured_image_src || undefined}
-                              alt={item.title}
-                            />
-                          </div>
-                          <h4>{item.title}</h4>
-                        </Link>
-                      </li>
-                    ))}
+                    {searchResult
+                      .filter((item) => item.subtype !== "mappin-page")
+                      .map((item, index) => (
+                        <li key={index}>
+                          <Link to={item.url} reloadDocument className="d-flex">
+                            <div className="result-img">
+                              <img
+                                src={item.featured_image_src || undefined}
+                                alt={item.title}
+                              />
+                            </div>
+                            <h4>{decodeHTML(item.title)}</h4>
+                          </Link>
+                        </li>
+                      ))}
                   </ul>
                 ) : (
                   !loading &&
