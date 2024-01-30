@@ -202,9 +202,16 @@ const Detail1 = () => {
                       }`}
                       style={{
                         position: !isInview ? "fixed" : "absolute",
+                        aspectRatio: 1,
                         maxWidth: "670px",
                         top: !isInview ? "27%" : "81%",
                         zoom: width < 1380 ? zoomConstant : 1,
+                        height:
+                          topAnimation < 95
+                            ? "290px"
+                            : topAnimation < 100
+                            ? "450px"
+                            : "670px",
                         transform:
                           topAnimation < 95
                             ? "translate(0%,-40%)"
@@ -227,8 +234,7 @@ const Detail1 = () => {
                               ? "290px"
                               : topAnimation < 100
                               ? "450px"
-                              : "750px",
-
+                              : "670px",
                           // transform: scrollPercent < 0.05 ? "scale(1)" : "scale(zoomConstant5)",
                         }}
                       />
