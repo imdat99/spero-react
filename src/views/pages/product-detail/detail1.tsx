@@ -96,12 +96,12 @@ const Detail1 = () => {
   const handleNavigate = () => {
     window.open((window as any).zaloLink);
   };
-  const price = useMemo(
-    () =>
-      variations.find((item) => item.variation_id === variation)
-        ?.display_price || data.price,
-    [data, variations, variation]
-  );
+  const variationsPrice = variations.find(
+    (item) => item.variation_id == variation
+  ) || {
+    display_price: data.price,
+    display_regular_price: data.regular_price,
+  };
 
   useEffect(() => {
     const calcPosition = () => {
@@ -270,8 +270,10 @@ const Detail1 = () => {
                           marginBottom: top < 0 ? "unset" : "1.5rem",
                         }}
                       >
-                        {Money(price)}
-                        <MoneySale regularPrice={data.regular_price} />
+                        {Money(variationsPrice.display_price)}
+                        <MoneySale
+                          regularPrice={variationsPrice.display_regular_price}
+                        />
                       </p>
                       <p
                         className="short_description story_time"
@@ -463,8 +465,10 @@ const Detail1 = () => {
                   </h1>
                 </Link>
                 <p className="product-price productCat-title fw-bold mobile-spero-productTitle">
-                  {Money(price)}
-                  <MoneySale regularPrice={data.regular_price} />
+                  {Money(variationsPrice.display_price)}
+                  <MoneySale
+                    regularPrice={variationsPrice.display_regular_price}
+                  />
                 </p>
                 <p
                   className="short_description story_time mobile-short_description"

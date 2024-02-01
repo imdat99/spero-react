@@ -21,6 +21,14 @@ const ProductCard: React.FC<{ product: PRODUCT_DATA }> = ({ product }) => {
       setLoading
     );
   };
+
+  const productPrice = product.variations.length
+    ? product.variations[0]
+    : {
+        display_price: product.data.price,
+        display_regular_price: product.data.regular_price,
+      };
+
   return (
     <>
       <div className="product-img position-relative">
@@ -48,8 +56,8 @@ const ProductCard: React.FC<{ product: PRODUCT_DATA }> = ({ product }) => {
       </Link>
       <div className="productCard-footer d-flex justify-content-between mt-3">
         <div className="product-price product_name_text flex-1">
-          {Money(product.data.price)}
-          <MoneySale regularPrice={product.data.regular_price} />
+          {Money(productPrice.display_price)}
+          <MoneySale regularPrice={productPrice.display_regular_price} />
         </div>
         <button
           disabled={loading}

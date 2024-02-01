@@ -29,6 +29,7 @@ export type PRODUCT_DATA = {
     variation_id: string;
     attributes: Record<string, string>;
     display_price: string;
+    display_regular_price: string;
   }[];
   weight_unit: string;
   data: {
