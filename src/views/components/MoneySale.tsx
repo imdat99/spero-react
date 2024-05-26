@@ -1,8 +1,12 @@
 import { Money } from "@app/utils/helper-function";
 
-const MoneySale: React.FC<{ regularPrice?: string }> = ({ regularPrice }) => {
+const MoneySale: React.FC<{
+  display_price: string;
+  display_regular_price: string;
+}> = (price) => {
   return (
-    regularPrice && (
+    price.display_regular_price &&
+    price.display_price != price.display_regular_price && (
       <>
         &nbsp;
         <span
@@ -12,7 +16,7 @@ const MoneySale: React.FC<{ regularPrice?: string }> = ({ regularPrice }) => {
             opacity: "0.7",
           }}
         >
-          {Money(regularPrice)}
+          {Money(price.display_regular_price)}
         </span>
       </>
     )

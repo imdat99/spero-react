@@ -39,7 +39,7 @@ const MobileOrderRow: FC<{
 
   return (
     <CartItem className="d-flex">
-      <div className="product-img">
+      <div className="product-img checkout-img">
         <img
           src={productData.data.product_image_url.thumb_src}
           alt={`${productData.data.product_name} - ${

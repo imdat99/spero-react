@@ -42,7 +42,7 @@ const OrderRow: React.FC<{
     <tr>
       <td className="product-col">
         <div className="product-info d-flex">
-          <div className="product-img">
+          <div className="product-img checkout-img">
             <img
               src={productData.data.product_image_url.gallery_thumbnail_src}
               alt={`${productData.data.product_name} - ${

@@ -165,16 +165,17 @@ const Detail1 = () => {
                 <div className="products-container row g-5">
                   <div className="col-12 col-md-6 d-flex flex-wrap overflow-auto">
                     <div
+                      className="w-100"
                       style={{
                         marginTop: "100vh",
                         marginBottom: "60px",
                       }}
                     >
-                      <div className="product-content section_mb">
-                        <div
-                          dangerouslySetInnerHTML={{ __html: data.description }}
-                        ></div>
-                      </div>
+                      <div
+                        className="product-content section_mb pc-content"
+                        dangerouslySetInnerHTML={{ __html: data.description }}
+                      />
+
                       <div className="gallery-img">
                         {productData.data.product_gallery_urls.map((img, i) => (
                           <div
@@ -271,9 +272,7 @@ const Detail1 = () => {
                         }}
                       >
                         {Money(variationsPrice.display_price)}
-                        <MoneySale
-                          regularPrice={variationsPrice.display_regular_price}
-                        />
+                        <MoneySale {...variationsPrice} />
                       </p>
                       <p
                         className="short_description story_time"
@@ -466,9 +465,7 @@ const Detail1 = () => {
                 </Link>
                 <p className="product-price productCat-title fw-bold mobile-spero-productTitle">
                   {Money(variationsPrice.display_price)}
-                  <MoneySale
-                    regularPrice={variationsPrice.display_regular_price}
-                  />
+                  <MoneySale {...variationsPrice} />
                 </p>
                 <p
                   className="short_description story_time mobile-short_description"

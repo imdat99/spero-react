@@ -57,7 +57,7 @@ const ProductCard: React.FC<{ product: PRODUCT_DATA }> = ({ product }) => {
       <div className="productCard-footer d-flex justify-content-between mt-3">
         <div className="product-price product_name_text flex-1">
           {Money(productPrice.display_price)}
-          <MoneySale regularPrice={productPrice.display_regular_price} />
+          <MoneySale {...productPrice} />
         </div>
         <button
           disabled={loading}
