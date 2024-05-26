@@ -5,21 +5,21 @@ export const namespace = "SPERO_CART";
 const initialState: Partial<SPERO_CART> = {};
 
 const slice = createSlice({
-  name: namespace,
-  initialState,
-  reducers: {
-    setCart: (_, action: PayloadAction<Partial<SPERO_CART>>) => action.payload,
-    refreshCart: () =>
-      ({
-        items: [],
-        total: 0,
-        shipping_total: 0,
-        checkout_total: 0,
-        discount_total: 0,
-        count: 0,
-      } as any),
-    clearCart: () => initialState,
-  },
+    name: namespace,
+    initialState,
+    reducers: {
+        setCart: (_, action: PayloadAction<Partial<SPERO_CART>>) => action.payload,
+        refreshCart: () =>
+            ({
+                items: [],
+                total: 0,
+                shipping_total: 0,
+                checkout_total: 0,
+                discount_total: 0,
+                count: 0,
+            } as any),
+        clearCart: () => initialState,
+    },
 });
 
 export const { setCart, clearCart, refreshCart } = slice.actions;

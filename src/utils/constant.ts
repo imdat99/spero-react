@@ -1,6 +1,6 @@
 export const WEIGHT_UNIT: Record<string, string> = {
-  g: "gram",
-  kg: "kilogram",
+    g: "gram",
+    kg: "kilogram",
 };
 
 export enum SPERO_ACTION {

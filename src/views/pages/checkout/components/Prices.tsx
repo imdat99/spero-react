@@ -2,7 +2,7 @@ import { Money } from "@app/utils/helper-function";
 import styled from "styled-components";
 
 const Prices = ({
-  totalAmount,
+    totalAmount,
 }: {
   totalAmount: {
     total: string;
@@ -11,92 +11,92 @@ const Prices = ({
     discount_total: string;
   };
 }) => {
-  return (
-    <PriceTable>
-      <div>
-        <table>
-          <tbody>
-            <tr>
-              <th colSpan={1}>
-                <span>Tổng tiền</span>
-              </th>
-              <td colSpan={1}>
-                <span>
-                  <strong>{Money(totalAmount.total)}</strong>
-                </span>
-              </td>
-            </tr>
+    return (
+        <PriceTable>
+            <div>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th colSpan={1}>
+                                <span>Tổng tiền</span>
+                            </th>
+                            <td colSpan={1}>
+                                <span>
+                                    <strong>{Money(totalAmount.total)}</strong>
+                                </span>
+                            </td>
+                        </tr>
 
-            <tr>
-              <th colSpan={1}>
-                <span>Phí giao hàng</span>
-              </th>
-              <td colSpan={1}>
-                <span>
-                  <strong>
-                    {totalAmount.shipping_total !== "0"
-                      ? Money(totalAmount.shipping_total)
-                      : "Miễn phí"}
-                  </strong>
-                </span>
-              </td>
-            </tr>
+                        <tr>
+                            <th colSpan={1}>
+                                <span>Phí giao hàng</span>
+                            </th>
+                            <td colSpan={1}>
+                                <span>
+                                    <strong>
+                                        {totalAmount.shipping_total !== "0"
+                                            ? Money(totalAmount.shipping_total)
+                                            : "Miễn phí"}
+                                    </strong>
+                                </span>
+                            </td>
+                        </tr>
 
-            <tr>
-              <th colSpan={1}>
-                <span>Khuyến mãi</span>
-              </th>
-              <td colSpan={1}>
-                <span>
-                  <strong>{Money(totalAmount.discount_total)}</strong>
-                </span>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colSpan={2}>
-                <ol className="shipping-info" style={{}}>
-                  <li>
+                        <tr>
+                            <th colSpan={1}>
+                                <span>Khuyến mãi</span>
+                            </th>
+                            <td colSpan={1}>
+                                <span>
+                                    <strong>{Money(totalAmount.discount_total)}</strong>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colSpan={2}>
+                                <ol className="shipping-info" style={{}}>
+                                    <li>
                     Áp dụng <b>MIỄN PHÍ GIAO HÀNG</b> cho đơn hàng nội thành Hà
                     Nội.
-                  </li>
-                  <li>
+                                    </li>
+                                    <li>
                     Đối với đơn ngoại thành, Quý khách vui lòng để lại thông tin
                     liên hệ để Spero xác nhận thông tin và thông báo phí giao
                     hàng.
-                  </li>
-                </ol>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-      <div>
-        <table>
-          <tbody>
-            <tr>
-              <th colSpan={1}>
-                <span className="price-total">Tổng tiền</span>
-              </th>
-              <td colSpan={1}>
-                <span className="price-total__amount">
-                  <strong>{Money(totalAmount.checkout_total)}</strong>
-                </span>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colSpan={2}>
-                <p className="vat-info">(VAT included)</p>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-    </PriceTable>
-  );
+                                    </li>
+                                </ol>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th colSpan={1}>
+                                <span className="price-total">Tổng tiền</span>
+                            </th>
+                            <td colSpan={1}>
+                                <span className="price-total__amount">
+                                    <strong>{Money(totalAmount.checkout_total)}</strong>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colSpan={2}>
+                                <p className="vat-info">(VAT included)</p>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </PriceTable>
+    );
 };
 
 export default Prices;

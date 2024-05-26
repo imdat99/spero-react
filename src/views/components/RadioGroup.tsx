@@ -2,51 +2,51 @@ import { PropsWithChildren, ReactNode } from "react";
 import styled from "styled-components";
 
 export const RadioGroup = ({
-  children,
-  title,
-  onChange,
-  className,
+    children,
+    title,
+    onChange,
+    className,
 }: PropsWithChildren<{
   children: ReactNode | ReactNode[];
   title: string;
   className?: string;
   onChange: (p?: any) => void;
 }>) => {
-  return (
-    <GroupContainer
-      className={className}
-      role="radiogroup"
-      aria-labelledby="group_heading"
-      onChange={onChange}
-    >
-      <h3>{title}:</h3>
-      {children}
-    </GroupContainer>
-  );
+    return (
+        <GroupContainer
+            className={className}
+            role="radiogroup"
+            aria-labelledby="group_heading"
+            onChange={onChange}
+        >
+            <h3>{title}:</h3>
+            {children}
+        </GroupContainer>
+    );
 };
 
 export const Radio = ({
-  children,
-  id,
-  name,
-  defaultChecked,
+    children,
+    id,
+    name,
+    defaultChecked,
 }: PropsWithChildren<{
   id: string;
   name: string;
   defaultChecked?: boolean;
 }>) => {
-  return (
-    <>
-      <input
-        type="radio"
-        id={id}
-        name={name}
-        defaultChecked={defaultChecked}
-        value={id}
-      />
-      <label htmlFor={id}>{children}</label>
-    </>
-  );
+    return (
+        <>
+            <input
+                type="radio"
+                id={id}
+                name={name}
+                defaultChecked={defaultChecked}
+                value={id}
+            />
+            <label htmlFor={id}>{children}</label>
+        </>
+    );
 };
 
 const GroupContainer = styled.div`

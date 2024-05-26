@@ -5,26 +5,26 @@ const PaymentMethod: React.FC<{
   formik: any;
   payment_geateways: PAYMENT_GATEWAY[]
 }> = ({ formik, payment_geateways }) => {
-  return (
-    <form className="position-relative">
-      {payment_geateways.map((item) => (
-        <PaymentMethodStyled key={item.id}>
-          <input
-            id={item.id}
-            name="payment_method"
-            type="radio"
-            value={item.id}
-            onChange={formik.handleChange}
-            defaultChecked={formik.values.payment_method === item.id}
-          />
-          <label htmlFor={item.id}>{item.title}</label>
-        </PaymentMethodStyled>
-      ))}
-      {formik.errors.payment_method && (
-        <p className="errText">{formik.errors.payment_method}</p>
-      )}
-    </form>
-  );
+    return (
+        <form className="position-relative">
+            {payment_geateways.map((item) => (
+                <PaymentMethodStyled key={item.id}>
+                    <input
+                        id={item.id}
+                        name="payment_method"
+                        type="radio"
+                        value={item.id}
+                        onChange={formik.handleChange}
+                        defaultChecked={formik.values.payment_method === item.id}
+                    />
+                    <label htmlFor={item.id}>{item.title}</label>
+                </PaymentMethodStyled>
+            ))}
+            {formik.errors.payment_method && (
+                <p className="errText">{formik.errors.payment_method}</p>
+            )}
+        </form>
+    );
 };
 
 export default PaymentMethod;

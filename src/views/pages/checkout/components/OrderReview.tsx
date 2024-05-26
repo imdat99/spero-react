@@ -14,87 +14,87 @@ const OrderReview: FC<{
   items: Record<string, CART_ITEM>;
   total: string;
 }> = ({ items, total }) => {
-  const { width } = useWindowSize();
-  const [loading, setLoading] = useSafeState<boolean>(false);
-  const allProducts = useAppSelector(productStore);
-  const [itemUpdate, setItemUpdate] = useSafeState<{
+    const { width } = useWindowSize();
+    const [loading, setLoading] = useSafeState<boolean>(false);
+    const allProducts = useAppSelector(productStore);
+    const [itemUpdate, setItemUpdate] = useSafeState<{
     item_id: string;
     quantity: number;
   }>({ item_id: "", quantity: 1 });
 
-  const handleRemove = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      removeItemFn(setLoading)(String(e.currentTarget.dataset.itemkey || "0"));
-    },
-    [setLoading]
-  );
-  const debounceUpdate = useDebounce(itemUpdate);
-  useEffect(() => {
-    if (!(debounceUpdate.item_id === ""))
-      updateQuantity(setLoading)(debounceUpdate);
+    const handleRemove = useCallback(
+        (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            removeItemFn(setLoading)(String(e.currentTarget.dataset.itemkey || "0"));
+        },
+        [setLoading]
+    );
+    const debounceUpdate = useDebounce(itemUpdate);
+    useEffect(() => {
+        if (!(debounceUpdate.item_id === ""))
+            updateQuantity(setLoading)(debounceUpdate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debounceUpdate]);
+    }, [debounceUpdate]);
 
-  return (
-    <BlurLayout loading={loading}>
-      {width > 575 ? (
-        <TableStyled>
-          <thead>
-            <tr>
-              <th className="product-col">Sản phẩm</th>
-              <th className="price-col">Giá</th>
-              <th className="quantity-col">Số lượng</th>
-              <th className="total-col">Tổng cộng</th>
-              <th className="action-col">&nbsp;</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.entries(items).map(([, item]) => (
-              <Fragment key={item.key}>
-                <OrderRow
-                  item={{
-                    ...item,
-                    data: allProducts[item.product_id] as PRODUCT_DATA,
-                  }}
-                  handle={{
-                    remove: handleRemove,
-                    update: setItemUpdate,
-                  }}
-                />
-              </Fragment>
-            ))}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td className="product-col">
-                <span className="review-total__span">Tổng tiền:</span>
-              </td>
-              <td colSpan={3} className="total-amount-col">
-                <span className="review-total__amount">{Money(total)}</span>
-              </td>
-              <td>&nbsp;</td>
-            </tr>
-          </tfoot>
-        </TableStyled>
-      ) : (
-        <MobilePreview>
-          {Object.entries(items).map(([key, value]) => (
-            <MobileOrderRow
-              itemData={{
-                ...value,
-                data: allProducts[value.product_id] as PRODUCT_DATA,
-              }}
-              key={key}
-              handle={{
-                remove: handleRemove,
-                update: setItemUpdate,
-              }}
-            />
-          ))}
-        </MobilePreview>
-      )}
-    </BlurLayout>
-  );
+    return (
+        <BlurLayout loading={loading}>
+            {width > 575 ? (
+                <TableStyled>
+                    <thead>
+                        <tr>
+                            <th className="product-col">Sản phẩm</th>
+                            <th className="price-col">Giá</th>
+                            <th className="quantity-col">Số lượng</th>
+                            <th className="total-col">Tổng cộng</th>
+                            <th className="action-col">&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Object.entries(items).map(([, item]) => (
+                            <Fragment key={item.key}>
+                                <OrderRow
+                                    item={{
+                                        ...item,
+                                        data: allProducts[item.product_id] as PRODUCT_DATA,
+                                    }}
+                                    handle={{
+                                        remove: handleRemove,
+                                        update: setItemUpdate,
+                                    }}
+                                />
+                            </Fragment>
+                        ))}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td className="product-col">
+                                <span className="review-total__span">Tổng tiền:</span>
+                            </td>
+                            <td colSpan={3} className="total-amount-col">
+                                <span className="review-total__amount">{Money(total)}</span>
+                            </td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </tfoot>
+                </TableStyled>
+            ) : (
+                <MobilePreview>
+                    {Object.entries(items).map(([key, value]) => (
+                        <MobileOrderRow
+                            itemData={{
+                                ...value,
+                                data: allProducts[value.product_id] as PRODUCT_DATA,
+                            }}
+                            key={key}
+                            handle={{
+                                remove: handleRemove,
+                                update: setItemUpdate,
+                            }}
+                        />
+                    ))}
+                </MobilePreview>
+            )}
+        </BlurLayout>
+    );
 };
 
 export default OrderReview;

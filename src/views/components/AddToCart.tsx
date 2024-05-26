@@ -6,17 +6,17 @@ const AddToCartbtn: FC<{
   children: React.ReactNode;
   className?: string;
 }> = ({ onClick, loading, children, className }) => {
-  return (
-    <ButtonStyled
-      type="button"
-      className={className || "btn btn-normal fw-semibold position-relative"}
-      onClick={onClick}
-      disabled={loading}
-    >
-      <LoadingSpinner $loading={loading} />
-      <ButtonText $loading={loading}>{children}</ButtonText>
-    </ButtonStyled>
-  );
+    return (
+        <ButtonStyled
+            type="button"
+            className={className || "btn btn-normal fw-semibold position-relative"}
+            onClick={onClick}
+            disabled={loading}
+        >
+            <LoadingSpinner $loading={loading} />
+            <ButtonText $loading={loading}>{children}</ButtonText>
+        </ButtonStyled>
+    );
 };
 
 export default AddToCartbtn;

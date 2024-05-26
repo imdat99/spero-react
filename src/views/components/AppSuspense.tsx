@@ -10,19 +10,19 @@ interface AppSuspenseProps {
 }
 
 export const LoadingScreen = () => {
-  return (
-    <BlurLayout loading={true}>
-      <LoadingStyled />
-    </BlurLayout>
-  )
+    return (
+        <BlurLayout loading={true}>
+            <LoadingStyled />
+        </BlurLayout>
+    )
 }
 
 const AppSuspense: React.FC<AppSuspenseProps> = ({ children, comp: Comp }) => {
-  return (
-    <ErrorBoundary>
-      <Suspense fallback={<LoadingScreen />}>{Comp ? <Comp /> : children}</Suspense>
-    </ErrorBoundary>
-  )
+    return (
+        <ErrorBoundary>
+            <Suspense fallback={<LoadingScreen />}>{Comp ? <Comp /> : children}</Suspense>
+        </ErrorBoundary>
+    )
 }
 
 export default AppSuspense

@@ -16,142 +16,142 @@ import ProductCard from "@app/views/components/ProductCard";
 const cartRootElement = document.getElementById("spero-app-cart");
 
 function CartApp() {
-  const allProducts = useAppSelector(productStore);
-  const { count, items, total } = useAppSelector(cartStore);
-  const [loading, setLoading] = useSafeState<boolean>(false);
-  const [itemUpdate, setItemUpdate] = useSafeState<{
+    const allProducts = useAppSelector(productStore);
+    const { count, items, total } = useAppSelector(cartStore);
+    const [loading, setLoading] = useSafeState<boolean>(false);
+    const [itemUpdate, setItemUpdate] = useSafeState<{
     item_id: string;
     quantity: number;
   }>({ item_id: "", quantity: 1 });
 
-  const handleRemove = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      removeItemFn(setLoading)(String(e.currentTarget.dataset.itemkey || "0"));
-    },
-    [setLoading]
-  );
-  const debounceUpdate = useDebounce(itemUpdate);
-  useEffect(() => {
-    if (!(debounceUpdate.item_id === ""))
-      updateQuantity(setLoading)(debounceUpdate);
+    const handleRemove = useCallback(
+        (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            removeItemFn(setLoading)(String(e.currentTarget.dataset.itemkey || "0"));
+        },
+        [setLoading]
+    );
+    const debounceUpdate = useDebounce(itemUpdate);
+    useEffect(() => {
+        if (!(debounceUpdate.item_id === ""))
+            updateQuantity(setLoading)(debounceUpdate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debounceUpdate]);
+    }, [debounceUpdate]);
 
-  const handleNavigate = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    document.getElementById("off-cart_toggle")?.click();
-    const url = e.currentTarget.dataset.navigate!;
-    if (location.pathname !== "/san-pham" || url !== "/san-pham") {
-      window.open(url, "_self");
-    }
-  };
-  return cartRootElement ? (
-    createPortal(
-      <CartContainer>
-        <div className="cart-count">
-          <p className="story_time">
+    const handleNavigate = (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+        document.getElementById("off-cart_toggle")?.click();
+        const url = e.currentTarget.dataset.navigate!;
+        if (location.pathname !== "/san-pham" || url !== "/san-pham") {
+            window.open(url, "_self");
+        }
+    };
+    return cartRootElement ? (
+        createPortal(
+            <CartContainer>
+                <div className="cart-count">
+                    <p className="story_time">
             Bạn đang có <b>{count} sản phẩm</b> trong giỏ hàng
-          </p>
-        </div>
-        {Boolean(count) && (
-          <BlurLayout loading={loading}>
-            <div className="cart-list-item">
-              <Scrollbars
-                style={{ height: Object.entries(items).length > 1 ? 520 : 260 }}
-              >
-                {Object.entries(items).map(([key, value]) => (
-                  <ProductCartItem
-                    itemData={{
-                      ...value,
-                      data: allProducts[value.product_id] as PRODUCT_DATA,
-                    }}
-                    key={key}
-                    handle={{
-                      remove: handleRemove,
-                      update: setItemUpdate,
-                    }}
-                  />
-                ))}
-              </Scrollbars>
-            </div>
-            <div className="suggest-item">
-              <div className="d-flex justify-content-between cart-total">
-                <span className="story_time my-auto">Tổng tiền:</span>
-                <h4 className="product_name_text my-auto">
-                  <b>{Money(total || "0")}</b>
-                </h4>
-              </div>
-              <div className="suggest-products mb-5">
-                <span className="offcanvas-title text-uppercase spero-text-primary">
-                  Có thể bạn sẽ thích
-                </span>
-                <Slider
-                  dots
-                  infinite
-                  autoplay={true}
-                  autoplaySpeed={2000}
-                  speed={500}
-                  slidesToShow={2}
-                  slidesToScroll={1}
-                  responsive={[
-                    {
-                      breakpoint: 576,
-                      settings: {
-                        slidesToShow: 1,
-                      },
-                    },
-                  ]}
-                  customPaging={() => {
-                    return (
-                      <svg
-                        width="19"
-                        height="6"
-                        viewBox="0 0 19 6"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <rect width="19" height="6" rx="3" fill="#EFEFEF" />
-                      </svg>
-                    );
-                  }}
-                >
-                  {Object.entries(allProducts).map(([key, item]) => (
-                    <Fragment key={key}>
-                      <ProductCard product={item as PRODUCT_DATA} />
-                    </Fragment>
-                  ))}
-                </Slider>
-              </div>
-              <ButtonCart className="suggest-item">
-                <div className="checkoutBtnGroup receive_percent_btn d-flex justify-content-between flex-wrap my-3 w-100">
-                  <button
-                    onClick={handleNavigate}
-                    data-navigate="/san-pham"
-                    type="button"
-                    className="btn btn-outline fw-semibold w-100 w-md-48 mb-3"
-                  >
-                    Tiếp tục mua sắm
-                  </button>
-                  <button
-                    onClick={handleNavigate}
-                    data-navigate="/thanh-toan"
-                    type="button"
-                    className="btn btn-normal fw-semibold w-100 w-md-48 mb-3"
-                  >
-                    Thanh toán
-                  </button>
+                    </p>
                 </div>
-              </ButtonCart>
-            </div>
-          </BlurLayout>
-        )}
-      </CartContainer>,
-      cartRootElement
-    )
-  ) : (
-    <></>
-  );
+                {Boolean(count) && (
+                    <BlurLayout loading={loading}>
+                        <div className="cart-list-item">
+                            <Scrollbars
+                                style={{ height: Object.entries(items).length > 1 ? 520 : 260 }}
+                            >
+                                {Object.entries(items).map(([key, value]) => (
+                                    <ProductCartItem
+                                        itemData={{
+                                            ...value,
+                                            data: allProducts[value.product_id] as PRODUCT_DATA,
+                                        }}
+                                        key={key}
+                                        handle={{
+                                            remove: handleRemove,
+                                            update: setItemUpdate,
+                                        }}
+                                    />
+                                ))}
+                            </Scrollbars>
+                        </div>
+                        <div className="suggest-item">
+                            <div className="d-flex justify-content-between cart-total">
+                                <span className="story_time my-auto">Tổng tiền:</span>
+                                <h4 className="product_name_text my-auto">
+                                    <b>{Money(total || "0")}</b>
+                                </h4>
+                            </div>
+                            <div className="suggest-products mb-5">
+                                <span className="offcanvas-title text-uppercase spero-text-primary">
+                  Có thể bạn sẽ thích
+                                </span>
+                                <Slider
+                                    dots
+                                    infinite
+                                    autoplay={true}
+                                    autoplaySpeed={2000}
+                                    speed={500}
+                                    slidesToShow={2}
+                                    slidesToScroll={1}
+                                    responsive={[
+                                        {
+                                            breakpoint: 576,
+                                            settings: {
+                                                slidesToShow: 1,
+                                            },
+                                        },
+                                    ]}
+                                    customPaging={() => {
+                                        return (
+                                            <svg
+                                                width="19"
+                                                height="6"
+                                                viewBox="0 0 19 6"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <rect width="19" height="6" rx="3" fill="#EFEFEF" />
+                                            </svg>
+                                        );
+                                    }}
+                                >
+                                    {Object.entries(allProducts).map(([key, item]) => (
+                                        <Fragment key={key}>
+                                            <ProductCard product={item as PRODUCT_DATA} />
+                                        </Fragment>
+                                    ))}
+                                </Slider>
+                            </div>
+                            <ButtonCart className="suggest-item">
+                                <div className="checkoutBtnGroup receive_percent_btn d-flex justify-content-between flex-wrap my-3 w-100">
+                                    <button
+                                        onClick={handleNavigate}
+                                        data-navigate="/san-pham"
+                                        type="button"
+                                        className="btn btn-outline fw-semibold w-100 w-md-48 mb-3"
+                                    >
+                    Tiếp tục mua sắm
+                                    </button>
+                                    <button
+                                        onClick={handleNavigate}
+                                        data-navigate="/thanh-toan"
+                                        type="button"
+                                        className="btn btn-normal fw-semibold w-100 w-md-48 mb-3"
+                                    >
+                    Thanh toán
+                                    </button>
+                                </div>
+                            </ButtonCart>
+                        </div>
+                    </BlurLayout>
+                )}
+            </CartContainer>,
+            cartRootElement
+        )
+    ) : (
+        <></>
+    );
 }
 
 export default CartApp;

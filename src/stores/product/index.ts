@@ -5,15 +5,15 @@ export const namespace = "SPERO_PRODUCT";
 const initialState: Record<string, Partial<PRODUCT_DATA>> = {};
 
 const slice = createSlice({
-  name: namespace,
-  initialState,
-  reducers: {
-    setProduct: (
-      _,
-      action: PayloadAction<Record<string, Partial<PRODUCT_DATA>>>
-    ) => action.payload,
-    clearProduct: () => initialState,
-  },
+    name: namespace,
+    initialState,
+    reducers: {
+        setProduct: (
+            _,
+            action: PayloadAction<Record<string, Partial<PRODUCT_DATA>>>
+        ) => action.payload,
+        clearProduct: () => initialState,
+    },
 });
 
 export const { setProduct, clearProduct } = slice.actions;

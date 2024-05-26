@@ -4,12 +4,12 @@ export const namespace = "SPERO_COUNT";
 const initialState: number = 0;
 
 const slice = createSlice({
-  name: namespace,
-  initialState,
-  reducers: {
-    setCount: (_, action: PayloadAction<number>) => action.payload,
-    clearCout: () => initialState,
-  },
+    name: namespace,
+    initialState,
+    reducers: {
+        setCount: (_, action: PayloadAction<number>) => action.payload,
+        clearCout: () => initialState,
+    },
 });
 
 export const { setCount, clearCout } = slice.actions;

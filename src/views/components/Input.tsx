@@ -10,21 +10,21 @@ const Input: React.FC<
     HTMLInputElement
   >
 > = ({ label, errorComponent, formInstant, ...props }) => {
-  return (
-    <div className="formControl">
-      <input placeholder=" " {...props} />
-      <span className="highlight"></span>
-      {formInstant?.errors[props.name || ""] && (
-        <p className="errText">
-          {errorComponent
-            ? errorComponent
-            : formInstant?.errors[props.name || ""]}
-        </p>
-      )}
-      <span className="bar"></span>
-      {label && <label>{label}</label>}
-    </div>
-  );
+    return (
+        <div className="formControl">
+            <input placeholder=" " {...props} />
+            <span className="highlight"></span>
+            {formInstant?.errors[props.name || ""] && (
+                <p className="errText">
+                    {errorComponent
+                        ? errorComponent
+                        : formInstant?.errors[props.name || ""]}
+                </p>
+            )}
+            <span className="bar"></span>
+            {label && <label>{label}</label>}
+        </div>
+    );
 };
 
 export default Input;

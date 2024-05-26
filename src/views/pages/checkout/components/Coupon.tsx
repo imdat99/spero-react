@@ -6,66 +6,66 @@ import AsyncSelect from "react-select/async";
 import styled from "styled-components";
 
 const Coupon = () => {
-  // const [loading, setLoading] = useState(false);
-  // const [couponCode, setCouponCode] = useState<string>("");
-  // const handleSetCode = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   console.log(e.currentTarget.value);
-  // };
-  const _loadOptions = (
-    inputValue: string,
-    callback: (options: any) => void
-  ) => {
-    appRequest({
-      url: searchCoupon,
-      method: "POST",
-      body: JSON.stringify({ code: inputValue }),
-    }).then((r) => {
-      callback(() => r);
-    });
-  };
-  const loadOptions = debounce(_loadOptions, 500);
+    // const [loading, setLoading] = useState(false);
+    // const [couponCode, setCouponCode] = useState<string>("");
+    // const handleSetCode = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //   console.log(e.currentTarget.value);
+    // };
+    const _loadOptions = (
+        inputValue: string,
+        callback: (options: any) => void
+    ) => {
+        appRequest({
+            url: searchCoupon,
+            method: "POST",
+            body: JSON.stringify({ code: inputValue }),
+        }).then((r) => {
+            callback(() => r);
+        });
+    };
+    const loadOptions = debounce(_loadOptions, 500);
 
-  return (
-    <CouponContainer>
-      <AsyncSelect
-        loadOptions={loadOptions}
-        // defaultValue={[opt[0]]}
-        name="colors"
-        // options={opt}
-        defaultOptions
-        // cacheOptions
-        className="basic-multi-select"
-        // classNamePrefix="Nhập mã khuyến mãi"
-        placeholder="Nhập mã khuyến mãi"
-        classNames={{
-          valueContainer: () => "valueContainer",
-          input: () => "inputBlock",
-          control: () => "selectContro",
-          container: (state) =>
-            `${state.isFocused ? "isForcus" : ""} ${
-              state.hasValue ? "hasValue" : ""
-            } selectContainer`,
-        }}
-        getOptionLabel={(opt: any) => opt["value"]}
-        getOptionValue={(opt: any) => opt["id"]}
-        isClearable
-        onChange={(e) => {
-          console.log(e);
-        }}
-      />
-      {/* <input
+    return (
+        <CouponContainer>
+            <AsyncSelect
+                loadOptions={loadOptions}
+                // defaultValue={[opt[0]]}
+                name="colors"
+                // options={opt}
+                defaultOptions
+                // cacheOptions
+                className="basic-multi-select"
+                // classNamePrefix="Nhập mã khuyến mãi"
+                placeholder="Nhập mã khuyến mãi"
+                classNames={{
+                    valueContainer: () => "valueContainer",
+                    input: () => "inputBlock",
+                    control: () => "selectContro",
+                    container: (state) =>
+                        `${state.isFocused ? "isForcus" : ""} ${
+                            state.hasValue ? "hasValue" : ""
+                        } selectContainer`,
+                }}
+                getOptionLabel={(opt: any) => opt["value"]}
+                getOptionValue={(opt: any) => opt["id"]}
+                isClearable
+                onChange={(e) => {
+                    console.log(e);
+                }}
+            />
+            {/* <input
         type="text"
         className="spero__text"
         placeholder="Nhập mã khuyến mãi"
         onChange={handleSetCode}
       /> */}
-      {/* {loading && (
+            {/* {loading && (
         <div className="icon-container">
           <i className="loader"></i>
         </div>
       )} */}
-    </CouponContainer>
-  );
+        </CouponContainer>
+    );
 };
 
 export default Coupon;

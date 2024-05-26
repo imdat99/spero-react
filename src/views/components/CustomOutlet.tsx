@@ -7,19 +7,19 @@ import { useEffect } from "react";
 import { updateCartIcon } from "@app/utils/helper-function";
 
 const CustomOutlet = () => {
-  const { state } = useNavigation();
-  const { count } = useAppSelector(cartStore);
-  useEffect(() => {
-    updateCartIcon(String(count));
-  }, [count]);
-  return (
-    <>
-      <ToastContainer role="alert" />
-      <BlurLayout loading={state === "loading"}>
-        <Outlet />
-      </BlurLayout>
-    </>
-  );
+    const { state } = useNavigation();
+    const { count } = useAppSelector(cartStore);
+    useEffect(() => {
+        updateCartIcon(String(count));
+    }, [count]);
+    return (
+        <>
+            <ToastContainer role="alert" />
+            <BlurLayout loading={state === "loading"}>
+                <Outlet />
+            </BlurLayout>
+        </>
+    );
 };
 
 export default CustomOutlet;

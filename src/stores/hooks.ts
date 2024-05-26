@@ -1,11 +1,11 @@
 import {
-  useEffect,
-  useState,
-  useLayoutEffect,
-  useRef,
-  Dispatch,
-  SetStateAction,
-  useCallback,
+    useEffect,
+    useState,
+    useLayoutEffect,
+    useRef,
+    Dispatch,
+    SetStateAction,
+    useCallback,
 } from "react";
 import type { TypedUseSelectorHook } from "react-redux";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,45 +20,45 @@ export const useAppDispatch = () => useDispatch<TypedDispatch<RootState>>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export const useDebounce = <T>(value: T, timeOut = 500) => {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+    const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
-  useEffect(() => {
-    const handler = setTimeout(() => setDebouncedValue(value), timeOut);
-    return () => clearTimeout(handler);
-  }, [value, timeOut]);
+    useEffect(() => {
+        const handler = setTimeout(() => setDebouncedValue(value), timeOut);
+        return () => clearTimeout(handler);
+    }, [value, timeOut]);
 
-  return debouncedValue;
+    return debouncedValue;
 };
 
 export const useForceRerender = () => {
-  const [, setToggle] = useState(false);
-  return () => setToggle((toggle) => !toggle);
+    const [, setToggle] = useState(false);
+    return () => setToggle((toggle) => !toggle);
 };
 
 export const useMounted = () => {
-  const mountedRef = useRef(false);
-  useLayoutEffect(() => {
-    mountedRef.current = true;
-    return () => {
-      mountedRef.current = false;
-    };
-  }, []);
-  return mountedRef;
+    const mountedRef = useRef(false);
+    useLayoutEffect(() => {
+        mountedRef.current = true;
+        return () => {
+            mountedRef.current = false;
+        };
+    }, []);
+    return mountedRef;
 };
 
 export const useSafeState = <s>(
-  initialState: s | (() => s)
+    initialState: s | (() => s)
 ): [s, Dispatch<SetStateAction<s>>] => {
-  const [state, setState] = useState(initialState);
+    const [state, setState] = useState(initialState);
 
-  const mountedRef = useMounted();
-  const safeSetState: Dispatch<SetStateAction<s>> = useCallback(
-    (update) => {
-      if (mountedRef.current) {
-        setState(update);
-      }
-    },
-    [mountedRef]
-  );
-  return [state, safeSetState];
+    const mountedRef = useMounted();
+    const safeSetState: Dispatch<SetStateAction<s>> = useCallback(
+        (update) => {
+            if (mountedRef.current) {
+                setState(update);
+            }
+        },
+        [mountedRef]
+    );
+    return [state, safeSetState];
 };

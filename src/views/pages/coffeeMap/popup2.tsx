@@ -3,29 +3,29 @@ import Scrollbars from "react-custom-scrollbars-2";
 import styled from "styled-components";
 
 const Popup2: React.FC<{ mapPin: MapPin }> = (props) => {
-  const { mapPin } = props || { mapPin: [] };
-  return (
-    <Scrollbars
-      style={{
-        height: 500,
-        width: 425,
-      }}
-    >
-      <PopupStyled>
-        <div className="tag-header d-flex">
-          <img className="map-img" src={mapPin.img} alt="" />
-          <div className="tag-info">
-            <h2 className="tag-name">{mapPin.name}</h2>
-            <p className="tag-title">{mapPin.desc}</p>
-          </div>
-        </div>
-        <p
-          className="tag-content"
-          dangerouslySetInnerHTML={{ __html: mapPin.content }}
-        ></p>
-      </PopupStyled>
-    </Scrollbars>
-  );
+    const { mapPin } = props || { mapPin: [] };
+    return (
+        <Scrollbars
+            style={{
+                height: 500,
+                width: 425,
+            }}
+        >
+            <PopupStyled>
+                <div className="tag-header d-flex">
+                    <img className="map-img" src={mapPin.img} alt="" />
+                    <div className="tag-info">
+                        <h2 className="tag-name">{mapPin.name}</h2>
+                        <p className="tag-title">{mapPin.desc}</p>
+                    </div>
+                </div>
+                <p
+                    className="tag-content"
+                    dangerouslySetInnerHTML={{ __html: mapPin.content }}
+                ></p>
+            </PopupStyled>
+        </Scrollbars>
+    );
 };
 
 export default Popup2;

@@ -4,40 +4,40 @@ import Scrollbars from "react-custom-scrollbars-2";
 import styled from "styled-components";
 
 const Popup: React.FC<{ data: PRODUCT_TAG }> = ({ data }) => {
-  return (
-    <Scrollbars
-      style={{
-        height: 500,
-        width: 425,
-      }}
-    >
-      <PopupStyled>
-        <div className="tag-header d-flex">
-          <img className="map-img" src={data.thumbnail.src} alt="" />
-          <div className="tag-info">
-            <h2 className="tag-name">{data.name}</h2>
-            <p className="tag-title">{data.title}</p>
-          </div>
-        </div>
-        <p className="tag-content">
-          {data.description}
-          <a
-            className="d-block"
-            href={data.slug.includes("ethiopia") ? "/ethiopia" : "/viet-nam"}
-          >
+    return (
+        <Scrollbars
+            style={{
+                height: 500,
+                width: 425,
+            }}
+        >
+            <PopupStyled>
+                <div className="tag-header d-flex">
+                    <img className="map-img" src={data.thumbnail.src} alt="" />
+                    <div className="tag-info">
+                        <h2 className="tag-name">{data.name}</h2>
+                        <p className="tag-title">{data.title}</p>
+                    </div>
+                </div>
+                <p className="tag-content">
+                    {data.description}
+                    <a
+                        className="d-block"
+                        href={data.slug.includes("ethiopia") ? "/ethiopia" : "/viet-nam"}
+                    >
             Xem thêm
-          </a>
-        </p>
-        <div className="tag-products row">
-          {data.products?.slice(0, 2).map((product) => (
-            <div className="col-12 col-md-6" key={product.data.product_id}>
-              <ProductCard product={product} />
-            </div>
-          ))}
-        </div>
-      </PopupStyled>
-    </Scrollbars>
-  );
+                    </a>
+                </p>
+                <div className="tag-products row">
+                    {data.products?.slice(0, 2).map((product) => (
+                        <div className="col-12 col-md-6" key={product.data.product_id}>
+                            <ProductCard product={product} />
+                        </div>
+                    ))}
+                </div>
+            </PopupStyled>
+        </Scrollbars>
+    );
 };
 
 export default Popup;

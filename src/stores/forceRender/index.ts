@@ -4,11 +4,11 @@ export const namespace = "FORCE_RERENDER";
 const initialState: boolean = false;
 
 const slice = createSlice({
-  name: namespace,
-  initialState,
-  reducers: {
-    reRender: (state) => !state,
-  },
+    name: namespace,
+    initialState,
+    reducers: {
+        reRender: (state) => !state,
+    },
 });
 
 export const { reRender } = slice.actions;
