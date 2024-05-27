@@ -3,13 +3,14 @@ import { initReactI18next } from "react-i18next";
 import Backend, { HttpBackendOptions } from "i18next-http-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
 import i18next from "i18next";
+import { PageUrl } from "./utils/constant";
 declare module "i18next" {
   interface CustomTypeOptions {
     returnNull: false;
   }
 }
 const backendOptions: HttpBackendOptions = {
-    loadPath: "https://sperocoffee.com/wp-json/lang/{{lng}}",
+    loadPath: PageUrl +"wp-json/lang/{{lng}}",
     request: (_options, url, _payload, callback) => {
         try {
             fetch(url).then((res) =>

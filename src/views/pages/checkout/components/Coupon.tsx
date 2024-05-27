@@ -2,10 +2,12 @@
 import { searchCoupon } from "@app/utils/constant";
 import { appRequest } from "@app/utils/request";
 import { debounce } from "lodash";
+import { useTranslation } from "react-i18next";
 import AsyncSelect from "react-select/async";
 import styled from "styled-components";
 
 const Coupon = () => {
+    const {t} = useTranslation();
     // const [loading, setLoading] = useState(false);
     // const [couponCode, setCouponCode] = useState<string>("");
     // const handleSetCode = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,8 +37,7 @@ const Coupon = () => {
                 defaultOptions
                 // cacheOptions
                 className="basic-multi-select"
-                // classNamePrefix="Nhập mã khuyến mãi"
-                placeholder="Nhập mã khuyến mãi"
+                placeholder={t("InputVoucher")}
                 classNames={{
                     valueContainer: () => "valueContainer",
                     input: () => "inputBlock",

@@ -39,7 +39,7 @@ const ProductCard: React.FC<{ product: PRODUCT_DATA }> = ({ product }) => {
                         </p>
                     </StockTag>
                 )}
-                <Link to={"/san-pham/" + product.slug}>
+                <Link reloadDocument to={"/san-pham/" + product.slug}>
                     <img
                         src={product.data.product_image_url.thumb_src}
                         alt={product.data.product_name}
@@ -49,6 +49,7 @@ const ProductCard: React.FC<{ product: PRODUCT_DATA }> = ({ product }) => {
                 </Link>
             </div>
             <Link
+                reloadDocument 
                 to={"/san-pham/" + product.slug}
                 className="product-title product_name_text product_item spero-text-primary"
             >

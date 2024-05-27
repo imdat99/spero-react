@@ -9,6 +9,7 @@ import BlurLayout from "@app/views/components/BlurLayout";
 import { productStore } from "@app/stores/product";
 import useWindowSize from "@app/utils/useWindowSize";
 import MobileOrderRow from "./MobileOrderRow";
+import { useTranslation } from "react-i18next";
 
 const OrderReview: FC<{
   items: Record<string, CART_ITEM>;
@@ -22,6 +23,7 @@ const OrderReview: FC<{
     quantity: number;
   }>({ item_id: "", quantity: 1 });
 
+    const {t} = useTranslation();
     const handleRemove = useCallback(
         (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             removeItemFn(setLoading)(String(e.currentTarget.dataset.itemkey || "0"));
@@ -41,10 +43,10 @@ const OrderReview: FC<{
                 <TableStyled>
                     <thead>
                         <tr>
-                            <th className="product-col">Sản phẩm</th>
-                            <th className="price-col">Giá</th>
-                            <th className="quantity-col">Số lượng</th>
-                            <th className="total-col">Tổng cộng</th>
+                            <th className="product-col">{t("Product.Title")}</th>
+                            <th className="price-col">{t("Product.ProductPrice")}</th>
+                            <th className="quantity-col">{t("Quantity")}</th>
+                            <th className="total-col">{t("Total")}</th>
                             <th className="action-col">&nbsp;</th>
                         </tr>
                     </thead>
@@ -67,7 +69,7 @@ const OrderReview: FC<{
                     <tfoot>
                         <tr>
                             <td className="product-col">
-                                <span className="review-total__span">Tổng tiền:</span>
+                                <span className="review-total__span">{t("TotalAmount")}:</span>
                             </td>
                             <td colSpan={3} className="total-amount-col">
                                 <span className="review-total__amount">{Money(total)}</span>

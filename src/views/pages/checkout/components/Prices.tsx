@@ -1,4 +1,5 @@
 import { Money } from "@app/utils/helper-function";
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
 const Prices = ({
@@ -11,6 +12,7 @@ const Prices = ({
     discount_total: string;
   };
 }) => {
+    const {t} = useTranslation();
     return (
         <PriceTable>
             <div>
@@ -18,7 +20,7 @@ const Prices = ({
                     <tbody>
                         <tr>
                             <th colSpan={1}>
-                                <span>Tổng tiền</span>
+                                <span>{t("Total")}</span>
                             </th>
                             <td colSpan={1}>
                                 <span>
@@ -29,14 +31,14 @@ const Prices = ({
 
                         <tr>
                             <th colSpan={1}>
-                                <span>Phí giao hàng</span>
+                                <span>{t("ShippingFee")}</span>
                             </th>
                             <td colSpan={1}>
                                 <span>
                                     <strong>
                                         {totalAmount.shipping_total !== "0"
                                             ? Money(totalAmount.shipping_total)
-                                            : "Miễn phí"}
+                                            : t("FreeShip")}
                                     </strong>
                                 </span>
                             </td>
@@ -44,7 +46,7 @@ const Prices = ({
 
                         <tr>
                             <th colSpan={1}>
-                                <span>Khuyến mãi</span>
+                                <span>{t("Voucher")}</span>
                             </th>
                             <td colSpan={1}>
                                 <span>
@@ -58,7 +60,7 @@ const Prices = ({
                             <td colSpan={2}>
                                 <ol className="shipping-info" style={{}}>
                                     <li>
-                    Áp dụng <b>MIỄN PHÍ GIAO HÀNG</b> cho đơn hàng nội thành Hà
+                    Áp dụng <b>{t("FreeShip").toUpperCase()} </b> cho đơn hàng nội thành Hà
                     Nội.
                                     </li>
                                     <li>
@@ -77,7 +79,7 @@ const Prices = ({
                     <tbody>
                         <tr>
                             <th colSpan={1}>
-                                <span className="price-total">Tổng tiền</span>
+                                <span className="price-total">{t("TotalAmount")}</span>
                             </th>
                             <td colSpan={1}>
                                 <span className="price-total__amount">

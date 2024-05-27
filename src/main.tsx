@@ -12,11 +12,12 @@ import { store } from "./stores";
 import { setCart } from "./stores/cart";
 import { setProduct } from "./stores/product";
 import { ErrorBoundary } from "./views/components/ErrorBoundary";
+import { getCurrentLang } from "./utils/helper-function";
 
 const ListenLanguage = () => {
     useEffect(() => {
     }, []);
-    const lang = document.documentElement.lang === "vi" ? "vi" : "en";
+    const lang = getCurrentLang()
     i18n.changeLanguage(lang);
     return null;
 };

@@ -104,3 +104,4 @@ export const getData_diagioi_fromId = ({
         billing_address_1: districtData?.Name,
     };
 };
+export const getCurrentLang = () => document.documentElement.lang === "vi" ? "vi" : "en";

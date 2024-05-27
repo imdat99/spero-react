@@ -8,10 +8,12 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Scrollbars from "react-custom-scrollbars-2";
 import { decodeHTML } from "@app/utils/helper-function";
+import { useTranslation } from "react-i18next";
 
 const searchRootElement = document.getElementById("spero-app-search");
 
 const SperoSearch = () => {
+    const {t} = useTranslation();
     const [keyword, setKeyword] = useState("");
     const [loading, setLoading] = useState<boolean>(false);
     const [searchResult, setResult] = useState<SearchResult[]>([]);
@@ -55,9 +57,18 @@ const SperoSearch = () => {
                             onChange={handdleSSearch}
                             value={keyword}
                             className="form-control search-form-input"
-                            placeholder="Nhập tại đây"
+                            placeholder={`${t("Search")}...`}
                             aria-label="search-field"
                             aria-describedby="button-search"
+                            onKeyDown={(e) => {
+                                if (e.key === "Escape") {
+                                    setKeyword("");
+                                    setResult([]);
+                                }
+                                if (e.key === "Enter") {
+                                    e.preventDefault();
+                                }
+                            }}
                         />
                         <button
                             className="btn search-btn"
@@ -139,7 +150,7 @@ const SperoSearch = () => {
                                 !loading &&
                   searchDebounce && (
                                     <p>
-                      Không có kết quả nào phù hợp với: <b>{keyword}</b>
+                      {t('NoResult')}: <b>{keyword}</b>
                                     </p>
                                 )
                             )}

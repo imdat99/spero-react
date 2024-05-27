@@ -44,14 +44,14 @@ const OrderRow: React.FC<{
                 <div className="product-info d-flex">
                     <div className="product-img checkout-img">
                         <img
-                            src={productData.data.product_image_url.gallery_thumbnail_src}
-                            alt={`${productData.data.product_name} - ${
+                            src={productData?.data.product_image_url.gallery_thumbnail_src}
+                            alt={`${productData?.data.product_name} - ${
                                 !isEmpty(variation) && (Object.values(variation)[0] as string)
                             }`}
                         />
                     </div>
                     <div className="product-title">
-                        <p>{productData.data.product_name}</p>
+                        <p>{productData?.data.product_name}</p>
                         {!isEmpty(variation) && (
                             <span>{Object.values(variation)[0] as string}</span>
                         )}

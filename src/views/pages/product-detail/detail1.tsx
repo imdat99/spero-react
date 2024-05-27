@@ -88,10 +88,10 @@ const Detail1 = () => {
         () =>
             Object.entries(allProducts).filter(
                 ([prod_id, product]) =>
-                    (String(prod_id) !== String(productData.data.product_id) &&
+                    (String(prod_id) !== String(productData?.data.product_id) &&
             product.cat?.id) === productData.cat.id
             ),
-        [allProducts, productData.cat.id, productData.data.product_id]
+        [allProducts, productData.cat.id, productData?.data.product_id]
     );
     const handleNavigate = () => {
         window.open((window as any).zaloLink);
@@ -177,13 +177,13 @@ const Detail1 = () => {
                                             />
 
                                             <div className="gallery-img">
-                                                {productData.data.product_gallery_urls.map((img, i) => (
+                                                {productData?.data.product_gallery_urls.map((img, i) => (
                                                     <div
                                                         key={i}
                                                         className="spero-productThumb w-100 product-img"
                                                     >
                                                         {i ===
-                            productData.data.product_gallery_urls.length - 1 ? (
+                            productData?.data.product_gallery_urls.length - 1 ? (
                                                                 <img src={img.full_src} alt="" id="last-img" />
                                                             ) : (
                                                                 <img src={img.full_src} alt="" />
@@ -421,7 +421,7 @@ const Detail1 = () => {
                                             width: "100%",
                                         }}
                                     />
-                                    {productData.data.product_gallery_urls.map((img, i) => (
+                                    {productData?.data.product_gallery_urls.map((img, i) => (
                                         <img
                                             key={i}
                                             src={img.src}
@@ -548,7 +548,7 @@ const Detail1 = () => {
                                 ></div>
                             </div>
                             <div className="gallery-img d-none d-md-flex">
-                                {productData.data.product_gallery_urls.map((img, i) => (
+                                {productData?.data.product_gallery_urls.map((img, i) => (
                                     <div key={i} className="spero-productThumb w-100 product-img">
                                         <img src={img.src} alt="" />
                                     </div>

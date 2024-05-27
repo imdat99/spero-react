@@ -14,32 +14,9 @@ import Prices from "./components/Prices";
 import { checkoutFn } from "./service";
 import "./test.scss";
 import { getData_diagioi_fromId } from "@app/utils/helper-function";
+import { useTranslation } from "react-i18next";
 
 // import { useReactTable } from '@tanstack/react-table'
-
-const schema = yup.object({
-    billing_first_name: yup.string().required("Họ và tên không được để trống!"),
-    billing_phone: yup
-        .string()
-        .required("Số điện thoại không được để trống!")
-        .matches(
-            /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
-            "Số điện thoại không đúng định dạng!"
-        ),
-    billing_city: yup.string().required("Thành phố không được để trống!"),
-    billing_address_2: yup.string().required("Địa chỉ không được để trống!"),
-    billing_email: yup
-        .string()
-        .required("Email không được để trống!")
-        .matches(
-            /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g,
-            "Địa chỉ email sai định dạng!"
-        ),
-    billing_address_1: yup.string().required("Quận huyện không được để trống!"),
-    payment_method: yup
-        .string()
-        .required("Vui lòng lựa chọn phương thức thanh toán!"),
-});
 
 const initialValues = {
     billing_first_name: "",
@@ -64,6 +41,31 @@ const Checkout = () => {
     } = useAppSelector(cartStore);
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
+    const {t} = useTranslation();
+
+    const schema = yup.object({
+        billing_first_name: yup.string().required(t("Required")),
+        billing_phone: yup
+            .string()
+            .required(t("Required"))
+            .matches(
+                /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
+                t("InvalidData")
+            ),
+        billing_city: yup.string().required(t("Required")),
+        billing_address_2: yup.string().required(t("Required")),
+        billing_email: yup
+            .string()
+            .required(t("Required"))
+            .matches(
+                /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+                t("InvalidData")
+            ),
+        billing_address_1: yup.string().required(t("Required")),
+        payment_method: yup
+            .string()
+            .required(t("choosePayment")),
+    });
 
     const { diaGioiVn, payment_geateways } = useLoaderData() as Record<
     string,
@@ -109,18 +111,18 @@ const Checkout = () => {
             <div className="page-container section_mb">
                 <div className="products-container row gx-4">
                     <div className="col-12 col-lg-8">
-                        <h2>Giỏ hàng</h2>
+                        <h2>{t("Product.ProductCart")}</h2>
                         <OrderReview items={items} total={total} />
-                        <h2 className="mt-4">Thông tin nhận hàng</h2>
+                        <h2 className="mt-4">{t("DeliveryInformation")}</h2>
                         <CheckoutForm diaGioiVn={diaGioiVn} formik={formik} />
                     </div>
                     <div className="col-12 col-lg-4">
                         <div className="coupon-container">
-                            <h2 className="block-name mb-4">Mã ưu đãi</h2>
+                            <h2 className="block-name mb-4">{t("Voucher")}</h2>
                             <Coupon />
                         </div>
                         <div className="bill-total my-4">
-                            <h2 className="block-name mb-4">Tạm tính</h2>
+                            <h2 className="block-name mb-4">{t("ProvisionalInvoice")}</h2>
                             <Prices
                                 totalAmount={{
                                     total,
@@ -141,7 +143,7 @@ const Checkout = () => {
                             loading={loading}
                             onClick={formik.submitForm}
                         >
-              Thanh toán
+                        {t("CheckOut")}
                         </AddToCartbtn>
                     </div>
                 </div>

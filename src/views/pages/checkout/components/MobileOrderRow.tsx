@@ -41,19 +41,19 @@ const MobileOrderRow: FC<{
         <CartItem className="d-flex">
             <div className="product-img checkout-img">
                 <img
-                    src={productData.data.product_image_url.thumb_src}
-                    alt={`${productData.data.product_name} - ${
+                    src={productData?.data.product_image_url.thumb_src}
+                    alt={`${productData?.data.product_name} - ${
                         !isEmpty(variation) && (Object.values(variation)[0] as string)
                     }`}
                 />
             </div>
             <CartInfo>
                 <h4>
-                    {productData.data.product_name}
+                    {productData?.data.product_name}
                     {!isEmpty(variation) &&
             " - " + (Object.values(variation)[0] as string)}
                 </h4>
-                <span className="spero__text">{Money(productData.data.price)}</span>
+                <span className="spero__text">{Money(productData?.data.price)}</span>
                 <div className="d-flex">
                     <QuantityButton setQuantity={setQuantity} quantity={quantity} />
                     <button

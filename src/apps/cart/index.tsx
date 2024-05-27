@@ -12,10 +12,12 @@ import { productStore } from "@app/stores/product";
 import { PRODUCT_DATA } from "@app/utils/types";
 import Slider from "react-slick";
 import ProductCard from "@app/views/components/ProductCard";
+import { useTranslation } from "react-i18next";
 
 const cartRootElement = document.getElementById("spero-app-cart");
 
 function CartApp() {
+    const { t } = useTranslation();
     const allProducts = useAppSelector(productStore);
     const { count, items, total } = useAppSelector(cartStore);
     const [loading, setLoading] = useSafeState<boolean>(false);
@@ -51,7 +53,7 @@ function CartApp() {
             <CartContainer>
                 <div className="cart-count">
                     <p className="story_time">
-            Bạn đang có <b>{count} sản phẩm</b> trong giỏ hàng
+            {t("YouHave")} <b>{count} {t("Product.Products")}</b> {t("Product.ProductInCart")}
                     </p>
                 </div>
                 {Boolean(count) && (
@@ -77,14 +79,14 @@ function CartApp() {
                         </div>
                         <div className="suggest-item">
                             <div className="d-flex justify-content-between cart-total">
-                                <span className="story_time my-auto">Tổng tiền:</span>
+                                <span className="story_time my-auto">{t('Total')}:</span>
                                 <h4 className="product_name_text my-auto">
                                     <b>{Money(total || "0")}</b>
                                 </h4>
                             </div>
                             <div className="suggest-products mb-5">
                                 <span className="offcanvas-title text-uppercase spero-text-primary">
-                  Có thể bạn sẽ thích
+                  {t("AlsoLike")}
                                 </span>
                                 <Slider
                                     dots
@@ -131,7 +133,7 @@ function CartApp() {
                                         type="button"
                                         className="btn btn-outline fw-semibold w-100 w-md-48 mb-3"
                                     >
-                    Tiếp tục mua sắm
+                    {t("ContinueShopping")}
                                     </button>
                                     <button
                                         onClick={handleNavigate}
@@ -139,7 +141,7 @@ function CartApp() {
                                         type="button"
                                         className="btn btn-normal fw-semibold w-100 w-md-48 mb-3"
                                     >
-                    Thanh toán
+                    {t("CheckOut")}
                                     </button>
                                 </div>
                             </ButtonCart>

@@ -3,7 +3,7 @@ import SperoSearch from "@app/apps/search";
 import { cartStore } from "@app/stores/cart";
 import { useAppSelector } from "@app/stores/hooks";
 import { adminAjax, PageUrl, SPERO_ACTION } from "@app/utils/constant";
-import { objectBody } from "@app/utils/helper-function";
+import { getCurrentLang, objectBody } from "@app/utils/helper-function";
 import { appRequest } from "@app/utils/request";
 import CartEmpty from "@app/views/components/CartEmpty";
 import CustomOutlet from "@app/views/components/CustomOutlet";
@@ -63,7 +63,7 @@ const router = createBrowserRouter(
                             loader: () => {
                                 // return a;
                                 return appRequest({
-                                    url: PageUrl + "/wp-json/vendor/v/products",
+                                    url: PageUrl + "/wp-json/vendor/v/products?lang="+getCurrentLang(),
                                 });
                             },
                             element: ErrorCheck(Products),
@@ -77,9 +77,32 @@ const router = createBrowserRouter(
                                     path: "",
                                     element: ErrorCheck(Detail1),
                                 },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    path: "en/san-pham",
+                    element: _c(Outlet),
+                    children: [
+                        {
+                            path: "",
+                            loader: () => {
+                                // return a;
+                                return appRequest({
+                                    url: PageUrl + "/wp-json/vendor/v/products?lang="+getCurrentLang(),
+                                });
+                            },
+                            element: ErrorCheck(Products),
+                            // element: _c(CoffeeMap),
+                        },
+                        {
+                            path: ":slug",
+                            element: _c(Outlet),
+                            children: [
                                 {
-                                    path: "more-info",
-                                    element: ErrorCheck(Detail2),
+                                    path: "",
+                                    element: ErrorCheck(Detail1),
                                 },
                             ],
                         },
@@ -87,6 +110,17 @@ const router = createBrowserRouter(
                 },
                 {
                     path: "thanh-toan",
+                    loader: async () => {
+                        return await appRequest({
+                            url: adminAjax,
+                            method: "POST",
+                            body: objectBody({ action: SPERO_ACTION.CHECKOUT_INFO }),
+                        });
+                    },
+                    element: ErrorCheck(Checkout),
+                },
+                {
+                    path: "en/checkout",
                     loader: async () => {
                         return await appRequest({
                             url: adminAjax,

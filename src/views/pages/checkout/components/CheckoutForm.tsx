@@ -1,17 +1,19 @@
 import { PROVINCE } from "@app/utils/types";
 import FakeMuiSelect from "@app/views/components/FakeMuiSelect";
 import Input from "@app/views/components/Input";
+import { useTranslation } from "react-i18next";
 
 const CheckoutForm: React.FC<{
   diaGioiVn: PROVINCE[];
   formik: any;
 }> = ({ diaGioiVn, formik }) => {
+    const {t} = useTranslation();
     return (
         <>
             <form onSubmit={formik.handleSubmit}>
                 <Input
                     autoComplete="off"
-                    label="Họ và tên"
+                    label={t("FullName")}
                     name="billing_first_name"
                     value={formik.values.billing_first_name}
                     onChange={formik.handleChange}
@@ -21,7 +23,7 @@ const CheckoutForm: React.FC<{
                 <div className="checkoutColumn">
                     <Input
                         autoComplete="off"
-                        label="Số điện thoại"
+                        label={t("PhoneNumber")}
                         name="billing_phone"
                         value={formik.values.billing_phone}
                         onChange={formik.handleChange}
@@ -38,7 +40,7 @@ const CheckoutForm: React.FC<{
                         formInstant={formik}
                     />
                     <FakeMuiSelect
-                        label="Thành phố"
+                        label={t("Province")}
                         formInstant={formik}
                         value={
                             diaGioiVn
@@ -59,7 +61,7 @@ const CheckoutForm: React.FC<{
                     />
                     <FakeMuiSelect
                         formInstant={formik}
-                        label="Quận huyện"
+                        label={t("District")}
                         value={
                             formik.values.billing_city
                                 ? diaGioiVn
@@ -89,7 +91,7 @@ const CheckoutForm: React.FC<{
                 </div>
                 <Input
                     autoComplete="off"
-                    label="Địa chỉ"
+                    label={t("Address")}
                     name="billing_address_2"
                     value={formik.values.billing_address_2}
                     onChange={formik.handleChange}
@@ -100,7 +102,7 @@ const CheckoutForm: React.FC<{
                     <Input
                         autoComplete="off"
                         type="text"
-                        label="Ghi chú"
+                        label={t("Note")}
                         name="order_comments"
                         value={formik.values.order_comments}
                         onChange={formik.handleChange}
