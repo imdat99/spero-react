@@ -60,13 +60,11 @@ const Prices = ({
                             <td colSpan={2}>
                                 <ol className="shipping-info" style={{}}>
                                     <li>
-                    Áp dụng <b>{t("FreeShip").toUpperCase()} </b> cho đơn hàng nội thành Hà
-                    Nội.
+                    {t("freeShipHN")}
                                     </li>
                                     <li>
-                    Đối với đơn ngoại thành, Quý khách vui lòng để lại thông tin
-                    liên hệ để Spero xác nhận thông tin và thông báo phí giao
-                    hàng.
+                                        {t("OutsideHanoi")}
+                    
                                     </li>
                                 </ol>
                             </td>

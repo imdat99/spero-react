@@ -1,24 +1,26 @@
 import { PageUrl } from "@app/utils/constant";
+import { useTranslation } from "react-i18next";
 
 const noteInfo = [
     {
         id: "point1",
         fill: "#193969",
-        text: "Nơi phát hiện hạt Arabica",
+        text: "Arabicadiscovered",
     },
     {
         id: "point2",
         fill: "#2F71D3",
-        text: "Nơi phát hiện hạt Robusta",
+        text: "Robustadiscovered",
     },
     {
         id: "point3",
         fill: "#587BB0",
-        text: "Các vùng cà phê nổi tiếng thế giới",
+        text: "coffeeArea",
     },
 ];
 
 const Map1 = () => {
+    const { t } = useTranslation();
     return (
         <div className="spero-map mb-4">
             <img src={PageUrl + "/wp-content/themes/spero/svg/map.svg"} alt="" />
@@ -41,16 +43,13 @@ const Map1 = () => {
                                         />
                                     </svg>
                                 </span>
-                                {item.text}
+                                {t(item.text)}
                             </p>
                         </li>
                     ))}
                 </ul>
                 <p className="spero__text spero-text-primary text-center">
-          Bản đồ giống như một cuốn nhật ký thú vị ghi lại cuộc hành trình khám
-          phá của Spero trong thế giới của cà phê. Trong hành trình của mình,
-          Spero sẽ đi qua nhiều vùng đất trên vành để gặp gỡ và tìm hiểu về
-          những nét văn hóa độc đáo gắn liền với cà phê.
+          {t("MapIntro")}
                 </p>
             </div>
         </div>

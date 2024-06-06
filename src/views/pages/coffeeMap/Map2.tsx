@@ -8,34 +8,35 @@ import styled from "styled-components";
 import "./index.scss";
 import Popup from "./popup";
 import Popup2 from "./popup2";
+import { useTranslation } from "react-i18next";
 
 const noteInfoCoffee = [
     {
         id: "point1",
         fill: "#193969",
-        text: "Nơi phát hiện hạt Arabica",
+        text: "Arabicadiscovered",
     },
     {
         id: "point2",
         fill: "#2F71D3",
-        text: "Nơi phát hiện hạt Robusta",
+        text: "Robustadiscovered",
     },
     {
         id: "point3",
         fill: "#587BB0",
-        text: "Các vùng cà phê nổi tiếng thế giới",
+        text: "coffeeArea",
     },
 ];
 const noteInfoBean = [
     {
         id: "bean1",
         fill: "#587BB0",
-        text: "Vùng trồng Arabica",
+        text: "ArabicaPlanting",
     },
     {
         id: "bean2",
         fill: "#587BB0",
-        text: "Vùng trồng Robusta",
+        text: "RobustaPlanting",
     },
 ];
 {
@@ -45,6 +46,7 @@ const Map2: React.FC<{ map_tags: PRODUCT_TAG[]; mapPin: MapPin[] }> = ({
     map_tags,
     mapPin,
 }) => {
+    const {t} = useTranslation();
     const [zoom, setZoom] = useState(0.9);
     const zoomDebounce = useDebounce(zoom, 300);
     const [mapHover, setMapHover] = useState<string>("viet-nam-products");
@@ -2341,10 +2343,7 @@ const Map2: React.FC<{ map_tags: PRODUCT_TAG[]; mapPin: MapPin[] }> = ({
             </MapStyled>
             <div className="products-container my-md-5 coffee-map d-flex flex-wrap">
                 <p className="spero__text spero-text-primary text-center products-container d-md-none">
-          Bản đồ giống như một cuốn nhật ký thú vị ghi lại cuộc hành trình khám
-          phá của Spero trong thế giới của cà phê. Trong hành trình của mình,
-          Spero sẽ đi qua nhiều vùng đất trên vành để gặp gỡ và tìm hiểu về
-          những nét văn hóa độc đáo gắn liền với cà phê.
+          {t("MapIntro")}
                 </p>
                 <ul className="w-mobile-50">
                     {noteInfoCoffee.map((item) => (
@@ -2364,7 +2363,7 @@ const Map2: React.FC<{ map_tags: PRODUCT_TAG[]; mapPin: MapPin[] }> = ({
                                         />
                                     </svg>
                                 </span>
-                                {item.text}
+                                {t(item.text)}
                             </p>
                         </li>
                     ))}
@@ -2391,16 +2390,13 @@ const Map2: React.FC<{ map_tags: PRODUCT_TAG[]; mapPin: MapPin[] }> = ({
                                         />
                                     </svg>
                                 </span>
-                                {item.text}
+                                {t(item.text)}
                             </p>
                         </li>
                     ))}
                 </ul>
                 <p className="spero__text spero-text-primary text-center products-container d-none d-md-block">
-          Bản đồ giống như một cuốn nhật ký thú vị ghi lại cuộc hành trình khám
-          phá của Spero trong thế giới của cà phê. Trong hành trình của mình,
-          Spero sẽ đi qua nhiều vùng đất trên vành để gặp gỡ và tìm hiểu về
-          những nét văn hóa độc đáo gắn liền với cà phê.
+          {t("MapIntro")}
                 </p>
             </div>
         </>

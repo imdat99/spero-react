@@ -1,7 +1,7 @@
 import ProductCartItem from "@app/apps/cart/components/Product-cart-item";
 import { cartStore } from "@app/stores/cart";
 import { useAppSelector, useDebounce, useSafeState } from "@app/stores/hooks";
-import { Money } from "@app/utils/helper-function";
+import { Money, getCurrentLang } from "@app/utils/helper-function";
 import BlurLayout from "@app/views/components/BlurLayout";
 import { Fragment, useCallback, useEffect } from "react";
 import Scrollbars from "react-custom-scrollbars-2";
@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 const cartRootElement = document.getElementById("spero-app-cart");
 
 function CartApp() {
+    const lang = getCurrentLang()
     const { t } = useTranslation();
     const allProducts = useAppSelector(productStore);
     const { count, items, total } = useAppSelector(cartStore);
@@ -137,7 +138,7 @@ function CartApp() {
                                     </button>
                                     <button
                                         onClick={handleNavigate}
-                                        data-navigate="/thanh-toan"
+                                        data-navigate={lang === 'vi' ? "/thanh-toan" : "/en/checkout"}
                                         type="button"
                                         className="btn btn-normal fw-semibold w-100 w-md-48 mb-3"
                                     >

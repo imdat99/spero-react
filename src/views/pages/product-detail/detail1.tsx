@@ -18,6 +18,7 @@ import styled from "styled-components";
 import Slider from "react-slick";
 import MoneySale from "@app/views/components/MoneySale";
 import { isEmpty } from "lodash";
+import { useTranslation } from "react-i18next";
 
 type Position = {
   bottom: number;
@@ -29,8 +30,15 @@ type Position = {
   x: number;
   y: number;
 };
-
+const keynames: Record<string, string> = {
+    "Độ cao": "Height",
+    "Mức rang": "roast",
+    "Phương pháp sơ chế": "process_method",
+    "Mùa vụ": "season",
+    "Hương vị": "flavor_profile",
+} 
 const Detail1 = () => {
+    const { t } = useTranslation();
     const scrollPos = useRef<number>(0);
     const [el, setEl] = useState<HTMLDivElement | null>(null);
     const [animation, setAnimation] = useState<{
@@ -288,7 +296,7 @@ const Detail1 = () => {
                                                     style={isEmpty(attributes) ? { width: "100%" } : {}}
                                                 >
                                                     <span className="label story_time">
-                            Khối lượng tịch:{" "}
+                            {t("NetWeight")}:{" "}
                                                         <b>
                                                             {data.weight} {WEIGHT_UNIT[weight_unit]}
                                                         </b>
@@ -337,7 +345,7 @@ const Detail1 = () => {
                                                         className="btn btn-outline fw-semibold w-100"
                                                         onClick={handleNavigate}
                                                     >
-                            Nhận ưu đãi ngay
+                            {t("GetOfferNow")}
                                                     </button>
                                                 </div>
                                                 <div className="col-12 col-md-6">
@@ -346,7 +354,7 @@ const Detail1 = () => {
                                                         loading={loading}
                                                         onClick={handleAddToCart}
                                                     >
-                            Thêm vào giỏ hàng
+                            {t("addToCart")}
                                                     </AddToCartbtn>
                                                 </div>
                                             </div>
@@ -378,7 +386,7 @@ const Detail1 = () => {
                                 )
                                 .map(({ key, value }, index) => (
                                     <span className="w-xs-50" key={index}>
-                                        {key}: <b>{decodeHTML(value)}</b>
+                                        {t(keynames[key])}: <b>{decodeHTML(value)}</b>
                                     </span>
                                 ))}
                         </div>
@@ -452,7 +460,7 @@ const Detail1 = () => {
                                         .filter((i) => i.key !== "Hương vị")
                                         .map(({ key, value }, index) => (
                                             <div className="product-info-item" key={index}>
-                                                {key}: {decodeHTML(value)}
+                                                {t(keynames[key])}: {decodeHTML(value)}
                                             </div>
                                         ))}
                                 </Slider>
@@ -482,7 +490,7 @@ const Detail1 = () => {
                                 >
                                     <div className="product-weight mb-3 my-xl-auto col-12 col-xl-5 order-xl-2">
                                         <span className="mobile-weight">
-                      Khối lượng tịch: {data.weight} {WEIGHT_UNIT[weight_unit]}
+                      {t("NetWeight")}: {data.weight} {WEIGHT_UNIT[weight_unit]}
                                         </span>
                                     </div>
                                     <ProductOption>
@@ -525,7 +533,7 @@ const Detail1 = () => {
                                             className="btn btn-outline fw-semibold w-100"
                                             onClick={handleNavigate}
                                         >
-                      Nhận ưu đãi ngay
+                      {t("GetOfferNow")}
                                         </button>
                                     </div>
                                     <div className="col-12 col-md-6">
@@ -534,7 +542,7 @@ const Detail1 = () => {
                                             loading={loading}
                                             onClick={handleAddToCart}
                                         >
-                      Thêm vào giỏ hàng
+                      {t("addToCart")}
                                         </AddToCartbtn>
                                     </div>
                                 </MobileBtn>
@@ -560,10 +568,10 @@ const Detail1 = () => {
             )}
             <div>
                 <div className="products products-container section_mb section_mt">
-                    <div className="speroProducts">
+                {sameCat.length ? <div className="speroProducts">
                         <div className="productCat text-center">
                             <p className="productCat-title">
-                Cùng trong{" "}
+                {t("SameCollection")}{" "}
                                 <span className="text-uppercase">{productData.cat.name}</span>
                             </p>
                         </div>
@@ -574,7 +582,7 @@ const Detail1 = () => {
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </div> : null }
                 </div>
             </div>
         </>

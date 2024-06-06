@@ -10,10 +10,10 @@ declare module "i18next" {
   }
 }
 const backendOptions: HttpBackendOptions = {
-    loadPath: PageUrl +"wp-json/lang/{{lng}}",
+    loadPath: PageUrl +"wp-json/lang/getAll?language={{lng}}",
     request: (_options, url, _payload, callback) => {
         try {
-            fetch(url).then((res) =>
+            fetch(url.replace('=vi', '=vn')).then((res) =>
                 res.json().then((r) => {
                     callback(null, {
                         data: JSON.stringify(r),
@@ -41,6 +41,7 @@ i18n
         ns: ["translation"],
         preload: languages,
         debug: false,
+        keySeparator: "=",
         returnNull: false,
         interpolation: {
             escapeValue: false,
@@ -50,3 +51,21 @@ i18n
     .then();
 
 export default i18n;
+
+// function lang($key)
+// {
+//     try {
+//         if (function_exists('pll_current_language')) {
+//             $lang = pll_current_language();
+//             $key = explode(".", $key);
+//             $langArr = $lang == 'vi' ?  vi_lang() : en_lang();
+//             $res = $langArr[$key[0]];
+//             foreach ($key as $k) {
+//                 if ($k != $key[0]) $res = $res[$k];
+//             }
+//             return $res;
+//         }
+//     } catch (Exception $e) {
+//         return $key;
+//     }
+// }

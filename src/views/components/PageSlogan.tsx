@@ -1,6 +1,8 @@
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
 const PageSlogan = () => {
+    const { t } = useTranslation();
     return (
         <SloganContainer className="spero-slogan">
             <div className="big-slogan">
@@ -10,7 +12,7 @@ const PageSlogan = () => {
                 <h2>the Original</h2>
             </div>
             <div className="text-slogan">
-                <p>Một thế giới mới và thú vị về cà phê để bạn khám phá !</p>
+                <p>{t("DiscoverOriginal")}</p>
             </div>
         </SloganContainer>
     );
