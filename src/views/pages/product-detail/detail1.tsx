@@ -118,6 +118,8 @@ const Detail1 = () => {
             const isView = elementIsVisibleInViewport(lastelement as any);
             setIsInview((prev): any => {
                 if (documentTop < scrollPos.current) {
+                    console.log("documentTop", documentTop);
+                    console.log("scrollPos.current", scrollPos.current);
                     // Down
                     if (!prev && isView) return isView;
                     return prev;
@@ -140,7 +142,6 @@ const Detail1 = () => {
         window.addEventListener("scroll", calcPosition);
         return () => {
             window.removeEventListener("scroll", calcPosition);
-            console.log("adsas");
         };
     }, [containerHeight, top, topAnimation, el, lastelement]);
 
@@ -198,6 +199,9 @@ const Detail1 = () => {
                                                             )}
                                                     </div>
                                                 ))}
+                                                {!productData?.data.product_gallery_urls.length && (
+                                                    <div id="last-img" style={{height: "1px", width: "1px"}}></div>
+                                                )}
                                                 <div id="last-item"></div>
                                             </div>
                                         </div>
@@ -210,10 +214,11 @@ const Detail1 = () => {
                                                     : ""
                                             }`}
                                             style={{
+                                                // opacity: animation.isAnimationInfo ? "1" : "0",
                                                 position: !isInview ? "fixed" : "absolute",
                                                 aspectRatio: 1,
                                                 maxWidth: "670px",
-                                                top: !isInview ? "27%" : "81%",
+                                                top: !isInview ? "27%" : "79%",
                                                 zoom: width < 1380 ? zoomConstant : 1,
                                                 height:
                           topAnimation < 95
