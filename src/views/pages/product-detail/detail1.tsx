@@ -292,9 +292,8 @@ const Detail1 = () => {
                                                 style={{
                                                     lineHeight: top < 0 ? "24px" : "32px",
                                                 }}
-                                            >
-                                                {data.short_description}
-                                            </p>
+                                                dangerouslySetInnerHTML={{ __html: data.short_description }}
+                                            />
                                             <div className="row justify-content-between mb-5">
                                                 <div
                                                     className="product-weight mb-3 my-xl-auto col-12 col-xl-5 order-xl-2"
@@ -486,9 +485,8 @@ const Detail1 = () => {
                                         lineHeight: "20px",
                                         fontSize: "14px",
                                     }}
-                                >
-                                    {data.short_description}
-                                </p>
+                                    dangerouslySetInnerHTML={{ __html: data.short_description }}
+                                />
                                 <div
                                     className="row justify-content-between"
                                     style={{ marginBottom: "36px" }}

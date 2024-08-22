@@ -82,9 +82,7 @@ const Products = () => {
                         <div className="speroProducts">
                             <div className="productCat">
                                 <title className="productCat-title d-block">{item.name}</title>
-                                <p className="productCat-des spero__text text-black">
-                                    {item.description}
-                                </p>
+                                <p className="productCat-des spero__text text-black" dangerouslySetInnerHTML={{ __html: item.description }}></p>
                             </div>
                             <div className="listProducts row g-3">
                                 {item.products.map((product) => (
